@@ -1,2 +1,10 @@
 https://www.programmableweb.com/category/humor/api	-	51 Humor APIs
 https://goswagger.io/use/server.html                -   Swagger for GoLang
+http://openmymind.net/assets/go/go.pdf		- Go Tuto
+https://astaxie.gitbooks.io/build-web-application-with-golang/content/en/index.html		- Go Tuto
+https://go-tour-fr.appspot.com/welcome/1		- Go Tuto
+http://www.golang-book.com/		- Sources de Tuto Go
+http://www.golangbootcamp.com/book		- Go Tuto
+https://miek.nl/go/		- Go Tuto
+https://nordicapis.com/7-frameworks-to-build-a-rest-api-in-go/		- 7 frameworks Go API
+https://dev.to/codehakase/building-a-restful-api-with-go		- Mini tuto API Go
