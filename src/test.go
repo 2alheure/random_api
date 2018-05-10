@@ -1,7 +1,13 @@
-package main
+package main;
 
-import "fmt"
+import (
+    "fmt"
+    "generator"
+);
 
 func main() {
-    fmt.Printf("hello, world\n")
+    fmt.Printf("hello, world\n");
+    test := generator.FromRegex("test", 10);
+
+    fmt.Println(test);
 }
