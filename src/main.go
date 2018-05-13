@@ -2,9 +2,13 @@ package main;
 
 import (
 	"fmt"
-	"generator"
+	"./generator"
+	"./model"
 )
 
-func test() {
-	
+func main() {
+	fmt.Println("test");
+	generator.TestNum();
+	generator.TestStr();
+	model.TestSql();
 }
