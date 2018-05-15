@@ -34,6 +34,37 @@ func CreateRessource(nom, createur string) int64 {
 	return id
 }
 
+/**
+func GetRessources(max int) *[]struct {} {
+	var res []struct {
+		nom string
+		createur string
+	}
+
+	stmt, err := db.Query("SELECT * FROM ressource LIMIT ?")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for stmt.Next() {
+		var nom string
+		var createur string
+		err = stmt.Scan(&nom, &createur)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		
+		res = append(res, struct {
+			nom string
+			createur string
+		} { nom, createur })
+	}
+
+	return &res
+}
+*/
+
 func DeleteRessource(id int) bool {
 	stmt, err := db.Prepare("DELETE FROM ressource WHERE id=?")
 	help.CheckErr(err)

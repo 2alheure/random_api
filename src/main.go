@@ -17,6 +17,8 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/ping", Ping).Methods("GET")
 	router.HandleFunc("/createRessource", controller.CreateRessource).Methods("POST")
+	router.HandleFunc("/deleteRessource", controller.DeleteRessource).Methods("DELETE")
+	router.HandleFunc("/getRessources", controller.GetRessources).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
 
