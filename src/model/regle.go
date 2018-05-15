@@ -1,7 +1,7 @@
 package model
 
-type struct Regle {
-	Id int64
-	Nom string
+type Regle struct {
+	Id         int64
+	Nom        string
 	Parametres []Parametre
 }

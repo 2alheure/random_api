@@ -1,9 +1,9 @@
 package model
 
-type struct Ressource {
-	Id int64
-	Nom string
-	Createur string
+type Ressource struct {
+	Id           int64
+	Nom          string
+	Createur     string
 	DateCreation string
-	champs []Champ
+	champs       []Champ
 }

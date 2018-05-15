@@ -1,6 +1,6 @@
 package model
 
-type struct Parametre {
-	Id int64
+type Parametre struct {
+	Id  int64
 	Nom string
 }
