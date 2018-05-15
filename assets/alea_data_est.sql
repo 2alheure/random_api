@@ -21,6 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `alea_data_est`
 --
+DROP DATABASE IF EXISTS `alea_data_est`;
 CREATE DATABASE IF NOT EXISTS `alea_data_est` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 USE `alea_data_est`;
 
@@ -52,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `parametre` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `nom` varchar(255) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `parametre`

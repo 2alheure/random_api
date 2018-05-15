@@ -1,55 +1,51 @@
-package model;
+package model
 
 import (
-	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"database/sql"
-);
+	"fmt"
 
-var db *sql.DB;
+	_ "github.com/go-sql-driver/mysql"
+
+	help "../helper"
+)
+
+var db *sql.DB
 
 func TestSql() {
-	fmt.Println("test sql");
+	fmt.Println("test sql")
 }
 
-func checkErr(err error) {
-	if (err != nil) {
-		panic(err);
-	}
-}
-
-func connect() *sql.DB {
-	var err error;
-	db, err = sql.Open("mysql", "root:@/alea_data_est?charset=utf8");
-	checkErr(err);
-	return db;
+func Connect() {
+	var err error
+	db, err = sql.Open("mysql", "root:@/alea_data_est?charset=utf8")
+	help.CheckErr(err)
 }
 
 func CreateRessource(nom, createur string) int64 {
-	stmt, err := db.Prepare("INSERT INTO ressource (nom, createur) VALUE (?, ?)");
-	checkErr(err);
+	stmt, err := db.Prepare("INSERT INTO ressource (nom, createur) VALUE (?, ?)")
+	help.CheckErr(err)
 
-	reponse, err := stmt.Exec(nom, createur);
-	checkErr(err);
+	reponse, err := stmt.Exec(nom, createur)
+	help.CheckErr(err)
 
-	id, err := reponse.LastInsertId();
-	checkErr(err);
+	id, err := reponse.LastInsertId()
+	help.CheckErr(err)
 
-	return id;
+	return id
 }
 
 func DeleteRessource(id int) bool {
-	stmt, err := db.Prepare("DELETE FROM ressource WHERE id=?");
-	checkErr(err);
+	stmt, err := db.Prepare("DELETE FROM ressource WHERE id=?")
+	help.CheckErr(err)
 
-	reponse, err := stmt.Exec(id);
-	checkErr(err);
+	reponse, err := stmt.Exec(id)
+	help.CheckErr(err)
 
-	affect, err := reponse.RowsAffected();
-	checkErr(err);
+	affect, err := reponse.RowsAffected()
+	help.CheckErr(err)
 
-	if (affect != 1) {
-		return false;
+	if affect != 1 {
+		return false
 	}
-	return true;
+	return true
 }

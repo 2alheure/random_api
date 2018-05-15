@@ -3,6 +3,7 @@ package generator;
 import (
 	"fmt"
 	"github.com/lucasjones/reggen"
+	help "../helper"
 );
 
 func TestStr() {
@@ -17,9 +18,7 @@ func FromRegex(regex string, n int) []string {
 	var ret []string; 
 
 	g, err := reggen.NewGenerator(regex);
-	if (err != nil) {
-		panic(err);
-	}
+	help.CheckErr(err)
 
 	for i := 0; i < n; i++ {
 		ret = append(ret, g.Generate(100));
