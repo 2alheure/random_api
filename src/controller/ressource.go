@@ -20,20 +20,23 @@ func CreateRessource(w http.ResponseWriter, r *http.Request) {
 	help.ReturnJson(w, js)
 }
 
-// func GetRessources(w http.ResponseWriter, r *http.Request) {
-// 	max := r.FormValue("max")
+func GetRessources(w http.ResponseWriter, r *http.Request) {
+	max := r.URL.Query()["map"]
 
-// 	results, err := model.GetRessources(max)
-// 	help.CheckErr(err)
+	for k, v := range max {
+		fmt.Println(k, " ", v)
+	}
 
-// 	js, err := json.Marshal(results)
-// 	if err != nil {
-// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-// 		panic(err)
-// 	}
+	// 	results := model.GetRessources(max)
 
-// 	help.ReturnJson(w, js)
-// }
+	// 	js, err := json.Marshal(results)
+	// 	if err != nil {
+	// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 		panic(err)
+	// 	}
+
+	// 	help.ReturnJson(w, js)
+}
 
 func DeleteRessource(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.FormValue("id"))
