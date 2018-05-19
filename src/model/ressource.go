@@ -41,10 +41,19 @@ func (ress *Ressource) Delete() bool {
 	return true
 }
 
-// func (ress *Ressource) Generate(n int) []Ressource {
-// On va créer une map qui récupère les clefs de chaque champ et leur associe une valeur
+func (ress *Ressource) Generate(n int) []Ressource {
+// On va créer un array qui récupère les clefs de chaque champ et leur associe une valeur
 // La valeur de chaque champ vaudra champ.Generate
-// }
+	var ret = []interface{}
+
+	for i := 0 ; i<n ; i++ {
+		for _, j := range ress.Champs {
+			ret = append(ret, j.Generate())
+		}
+	}
+
+	return ret
+}
 
 func GetRessources(max int) []Ressource {
 	var ress []Ressource
