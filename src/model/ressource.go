@@ -1,9 +1,65 @@
 package model
 
+import (
+	help "../helper"
+)
+
 type Ressource struct {
-	Id           int64   `json:"id"`
+	Id           int     `json:"id"`
 	Nom          string  `json:"nom"`
 	Createur     string  `json:"createur"`
 	DateCreation string  `json:"date_creation"`
 	Champs       []Champ `json:"champs"`
+}
+
+func (ress *Ressource) Create() {
+	stmt, err := db.Prepare("INSERT INTO ressource (nom, createur) VALUE (?, ?)")
+	help.CheckErr(err)
+
+	reponse, err := stmt.Exec(ress.Nom, ress.Createur)
+	help.CheckErr(err)
+
+	id, err := reponse.LastInsertId()
+	help.CheckErr(err)
+
+	ress.Id = int(id)
+}
+
+func (ress *Ressource) Delete() bool {
+	stmt, err := db.Prepare("DELETE FROM ressource WHERE id=?")
+	help.CheckErr(err)
+
+	reponse, err := stmt.Exec(ress.Id)
+	help.CheckErr(err)
+
+	affect, err := reponse.RowsAffected()
+	help.CheckErr(err)
+
+	if affect != 1 {
+		return false
+	}
+	return true
+}
+
+// func (ress *Ressource) Generate(n int) []Ressource {
+// On va créer une map qui récupère les clefs de chaque champ et leur associe une valeur
+// La valeur de chaque champ vaudra champ.Generate
+// }
+
+func GetRessources(max int) []Ressource {
+	var ress []Ressource
+
+	stmt, err := db.Query("SELECT * FROM ressource LIMIT ?")
+	help.CheckErr(err)
+
+	for stmt.Next() {
+		var id int
+		var nom, createur, date string
+		err = stmt.Scan(&id, &nom, &createur, &date)
+		help.CheckErr(err)
+
+		ress = append(ress, Ressource{Id: id, Nom: nom, Createur: createur, DateCreation: date})
+	}
+
+	return ress
 }

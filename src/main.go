@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 
@@ -23,11 +22,5 @@ func main() {
 }
 
 func Ping(w http.ResponseWriter, r *http.Request) {
-	js, err := json.Marshal(`Pong`)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		panic(err)
-	}
-
-	help.ReturnJson(w, js)
+	help.ReturnJson(w, `Pong`)
 }

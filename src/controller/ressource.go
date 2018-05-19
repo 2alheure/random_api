@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -11,39 +9,30 @@ import (
 )
 
 func CreateRessource(w http.ResponseWriter, r *http.Request) {
-	nom := r.FormValue("nom")
-	createur := r.FormValue("createur")
-	model.CreateRessource(nom, createur)
-	fmt.Println("OK")
-	js, err := json.Marshal(`{OK}`)
-	help.CheckErr(err)
-	help.ReturnJson(w, js)
+	ress := model.Ressource{Nom: r.FormValue("nom"), Createur: r.FormValue("createur")}
+
+	ress.Create()
+	help.ReturnJson(w, ress)
 }
 
 func GetRessources(w http.ResponseWriter, r *http.Request) {
-	max := r.URL.Query()["map"]
+	max, err := strconv.Atoi(r.FormValue("max"))
+	help.CheckErr(err)
 
-	for k, v := range max {
-		fmt.Println(k, " ", v)
-	}
+	results := model.GetRessources(max)
 
-	// 	results := model.GetRessources(max)
-
-	// 	js, err := json.Marshal(results)
-	// 	if err != nil {
-	// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-	// 		panic(err)
-	// 	}
-
-	// 	help.ReturnJson(w, js)
+	help.ReturnJson(w, results)
 }
 
 func DeleteRessource(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.FormValue("id"))
 	help.CheckErr(err)
-	model.DeleteRessource(id)
-	fmt.Println("OK")
-	js, err := json.Marshal(`{OK}`)
-	help.CheckErr(err)
-	help.ReturnJson(w, js)
+
+	ress := model.Ressource{Id: int(id)}
+
+	if ress.Delete() {
+		help.ReturnJson(w, `{OK}`)
+	} else {
+		help.ReturnJson(w, `{error: "A ressource couldn't be deleted."}`)
+	}
 }
