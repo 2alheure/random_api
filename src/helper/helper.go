@@ -1,13 +1,14 @@
 package helper
 
 import (
+	"fmt"
 	"net/http"
 	json "encoding/json"
 )
 
 func CheckErr(err error) {
 	if err != nil {
-		panic(err)
+		fmt.Errorf("Erreur: %v", err)
 	}
 }
 

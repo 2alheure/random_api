@@ -22,9 +22,10 @@ func main() {
 
 	router.HandleFunc("/ping", Ping).Methods("GET")
 
-	router.HandleFunc("/createRessource", controller.CreateRessource).Methods("POST")
-	router.HandleFunc("/deleteRessource", controller.DeleteRessource).Methods("DELETE")
-	router.HandleFunc("/getRessources", controller.GetRessources).Methods("GET")
+	router.HandleFunc("/ressource", controller.GetRessource).Methods("GET")
+	router.HandleFunc("/ressource", controller.CreateRessource).Methods("POST")
+	router.HandleFunc("/ressource", controller.DeleteRessource).Methods("DELETE")
+	router.HandleFunc("/ressources", controller.GetRessources).Methods("GET")
 	
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
