@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 11 mai 2018 à 13:39
--- Version du serveur :  5.7.19
--- Version de PHP :  7.1.9
+-- Généré le :  Dim 20 mai 2018 à 13:08
+-- Version du serveur :  5.7.21
+-- Version de PHP :  5.6.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,15 +31,23 @@ USE `alea_data_est`;
 -- Structure de la table `champ`
 --
 
-DROP TABLE IF EXISTS `champ`;
-CREATE TABLE IF NOT EXISTS `champ` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `champ` (
+  `id` int(10) UNSIGNED NOT NULL,
   `ressource_id` int(10) UNSIGNED NOT NULL,
-  `type_id` int(10) UNSIGNED NOT NULL,
-  `clef` varchar(255) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `ressource_id` (`ressource_id`),
-  KEY `type_id` (`type_id`)
+  `clef` varchar(255) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `champ_parametre`
+--
+
+CREATE TABLE `champ_parametre` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `champ_id` int(10) UNSIGNED NOT NULL,
+  `regle_parametre_id` int(10) UNSIGNED NOT NULL,
+  `valeur` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -48,12 +56,10 @@ CREATE TABLE IF NOT EXISTS `champ` (
 -- Structure de la table `parametre`
 --
 
-DROP TABLE IF EXISTS `parametre`;
-CREATE TABLE IF NOT EXISTS `parametre` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE `parametre` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nom` varchar(255) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `parametre`
@@ -71,12 +77,10 @@ INSERT INTO `parametre` (`id`, `nom`) VALUES
 -- Structure de la table `regle`
 --
 
-DROP TABLE IF EXISTS `regle`;
-CREATE TABLE IF NOT EXISTS `regle` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE `regle` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nom` varchar(255) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `regle`
@@ -99,21 +103,17 @@ INSERT INTO `regle` (`id`, `nom`) VALUES
 -- Structure de la table `regle_parametre`
 --
 
-DROP TABLE IF EXISTS `regle_parametre`;
-CREATE TABLE IF NOT EXISTS `regle_parametre` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_regle` int(10) UNSIGNED NOT NULL,
-  `id_parametre` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_regle` (`id_regle`),
-  KEY `id_parametre` (`id_parametre`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE `regle_parametre` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `regle_id` int(10) UNSIGNED NOT NULL,
+  `parametre_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `regle_parametre`
 --
 
-INSERT INTO `regle_parametre` (`id`, `id_regle`, `id_parametre`) VALUES
+INSERT INTO `regle_parametre` (`id`, `regle_id`, `parametre_id`) VALUES
 (1, 1, 1),
 (2, 2, 3),
 (3, 3, 3),
@@ -128,43 +128,98 @@ INSERT INTO `regle_parametre` (`id`, `id_regle`, `id_parametre`) VALUES
 -- Structure de la table `ressource`
 --
 
-DROP TABLE IF EXISTS `ressource`;
-CREATE TABLE IF NOT EXISTS `ressource` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ressource` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nom` varchar(255) COLLATE utf8_bin NOT NULL,
   `createur` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nom` (`nom`)
+  `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- --------------------------------------------------------
-
 --
--- Structure de la table `type`
+-- Index pour les tables déchargées
 --
 
-DROP TABLE IF EXISTS `type`;
-CREATE TABLE IF NOT EXISTS `type` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
+--
+-- Index pour la table `champ`
+--
+ALTER TABLE `champ`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ressource_id` (`ressource_id`);
 
 --
--- Structure de la table `type_regle`
+-- Index pour la table `champ_parametre`
+--
+ALTER TABLE `champ_parametre`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `champ_id` (`champ_id`),
+  ADD KEY `regle_parametre_id` (`regle_parametre_id`);
+
+--
+-- Index pour la table `parametre`
+--
+ALTER TABLE `parametre`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `regle`
+--
+ALTER TABLE `regle`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `regle_parametre`
+--
+ALTER TABLE `regle_parametre`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `regle_id` (`regle_id`),
+  ADD KEY `parametre_id` (`parametre_id`);
+
+--
+-- Index pour la table `ressource`
+--
+ALTER TABLE `ressource`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nom` (`nom`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
-DROP TABLE IF EXISTS `type_regle`;
-CREATE TABLE IF NOT EXISTS `type_regle` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_type` int(10) UNSIGNED NOT NULL,
-  `id_regle` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_type` (`id_type`),
-  KEY `id_regle` (`id_regle`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+--
+-- AUTO_INCREMENT pour la table `champ`
+--
+ALTER TABLE `champ`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `champ_parametre`
+--
+ALTER TABLE `champ_parametre`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT pour la table `parametre`
+--
+ALTER TABLE `parametre`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `regle`
+--
+ALTER TABLE `regle`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT pour la table `regle_parametre`
+--
+ALTER TABLE `regle_parametre`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT pour la table `ressource`
+--
+ALTER TABLE `ressource`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
@@ -174,22 +229,21 @@ CREATE TABLE IF NOT EXISTS `type_regle` (
 -- Contraintes pour la table `champ`
 --
 ALTER TABLE `champ`
-  ADD CONSTRAINT `champ_ibfk_1` FOREIGN KEY (`ressource_id`) REFERENCES `ressource` (`id`),
-  ADD CONSTRAINT `champ_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `type` (`id`);
+  ADD CONSTRAINT `champ_ibfk_1` FOREIGN KEY (`ressource_id`) REFERENCES `ressource` (`id`);
+
+--
+-- Contraintes pour la table `champ_parametre`
+--
+ALTER TABLE `champ_parametre`
+  ADD CONSTRAINT `champ_parametre_ibfk_1` FOREIGN KEY (`champ_id`) REFERENCES `champ` (`id`),
+  ADD CONSTRAINT `champ_parametre_ibfk_2` FOREIGN KEY (`regle_parametre_id`) REFERENCES `regle_parametre` (`id`);
 
 --
 -- Contraintes pour la table `regle_parametre`
 --
 ALTER TABLE `regle_parametre`
-  ADD CONSTRAINT `regle_parametre_ibfk_1` FOREIGN KEY (`id_regle`) REFERENCES `regle` (`id`),
-  ADD CONSTRAINT `regle_parametre_ibfk_2` FOREIGN KEY (`id_parametre`) REFERENCES `parametre` (`id`);
-
---
--- Contraintes pour la table `type_regle`
---
-ALTER TABLE `type_regle`
-  ADD CONSTRAINT `type_regle_ibfk_1` FOREIGN KEY (`id_type`) REFERENCES `type` (`id`),
-  ADD CONSTRAINT `type_regle_ibfk_2` FOREIGN KEY (`id_regle`) REFERENCES `regle` (`id`);
+  ADD CONSTRAINT `regle_parametre_ibfk_1` FOREIGN KEY (`regle_id`) REFERENCES `regle` (`id`),
+  ADD CONSTRAINT `regle_parametre_ibfk_2` FOREIGN KEY (`parametre_id`) REFERENCES `parametre` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
