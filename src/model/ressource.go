@@ -41,24 +41,24 @@ func (ress *Ressource) Delete() bool {
 	return true
 }
 
-func (ress *Ressource) Generate(n int) []Ressource {
-// On va créer un array qui récupère les clefs de chaque champ et leur associe une valeur
-// La valeur de chaque champ vaudra champ.Generate
-	var ret = []interface{}
+// func (ress *Ressource) Generate(n int) []Ressource {
+// // On va créer un array qui récupère les clefs de chaque champ et leur associe une valeur
+// // La valeur de chaque champ vaudra champ.Generate
+// 	var ret = []Ressource
 
-	for i := 0 ; i<n ; i++ {
-		for _, j := range ress.Champs {
-			ret = append(ret, j.Generate())
-		}
-	}
+// 	for i := 0 ; i<n ; i++ {
+// 		for _, j := range ress.Champs {
+// 			ret = append(ret, j.Generate())
+// 		}
+// 	}
 
-	return ret
-}
+// 	return ret
+// }
 
 func GetRessources(max int) []Ressource {
 	var ress []Ressource
 
-	stmt, err := db.Query("SELECT * FROM ressource LIMIT ?")
+	stmt, err := db.Query("SELECT * FROM ressource LIMIT ?", max)
 	help.CheckErr(err)
 
 	for stmt.Next() {

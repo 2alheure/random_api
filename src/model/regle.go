@@ -1,5 +1,9 @@
 package model
 
+import (
+	help "../helper"
+)
+
 type Regle struct {
 	Id         int         `json:"id"`
 	Nom        string      `json:"nom"`
@@ -24,7 +28,7 @@ func (regle *Regle) Delete() bool {
 	stmt, err := db.Prepare("DELETE FROM regle WHERE id=?")
 	help.CheckErr(err)
 
-	reponse, err := stmt.Exec(champ.Id)
+	reponse, err := stmt.Exec(regle.Id)
 	help.CheckErr(err)
 
 	affect, err := reponse.RowsAffected()

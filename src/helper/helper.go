@@ -11,8 +11,8 @@ func CheckErr(err error) {
 	}
 }
 
-func ReturnJson(w http.ResponseWriter, json interface{}) {
-	js, err := json.Marshal(json)
+func ReturnJson(w http.ResponseWriter, to_json interface{}) {
+	js, err := json.Marshal(to_json)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		panic(err)

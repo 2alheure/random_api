@@ -38,23 +38,24 @@ func (champ *Champ) Delete() bool {
 }
 
 // func (champ *Champ) Generate() interface{} {
-// On va créer un champ en appelant regle.Generate
-// return struct{Key string, Value @type} {"clef", @value}
+// // On va créer un champ en appelant regle.Generate
+// // return struct{Key string, Value @type} {"clef", @value}
+// 	return struct{}
 // }
 
 func GetChamps(max int) []Champ {
 	var champs []Champ
 
-	stmt, err := db.Query("SELECT * FROM champ LIMIT ?")
+	stmt, err := db.Query("SELECT * FROM champ LIMIT ?", max)
 	help.CheckErr(err)
 
 	for stmt.Next() {
 		var id int
-		var nom, createur, date string
-		err = stmt.Scan(&id, &nom, &createur, &date)
+		var clef string
+		err = stmt.Scan(&id, &clef)
 		help.CheckErr(err)
 
-		champs = append(champs, Champ{Id: id, Nom: nom, Createur: createur, DateCreation: date})
+		champs = append(champs, Champ{Id: id, Clef: clef})
 	}
 
 	return champs
