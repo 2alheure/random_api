@@ -3,20 +3,18 @@ package main
 import (
 	"log"
 	"net/http"
-	"database/sql"
 
 	"github.com/gorilla/mux"
-	_ "github.com/go-sql-driver/mysql"
 
 	controller "./controller"
 	help "./helper"
+	model "./model"
 )
 
 func main() {
-	db, err := sql.Open("mysql", "root:@/alea_data_est?charset=utf8")
-	help.CheckErr(err)
+	Bdd := model.InitBdd()
 
-	defer db.Close()
+	defer Bdd.Close()
 
 	router := mux.NewRouter()
 

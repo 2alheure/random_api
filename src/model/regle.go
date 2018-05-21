@@ -5,14 +5,14 @@ import (
 )
 
 type Regle struct {
-	Id         int         `json:"id"`
-	Nom        string      `json:"nom"`
-	Parametres []Parametre `json:"parametres"`
+	Id         int         `json:"id,omitempty"`
+	Nom        string      `json:"nom,omitempty"`
+	Parametres []Parametre `json:"parametres,omitempty"`
 }
 
 
 func (regle *Regle) Create() {
-	stmt, err := db.Prepare("INSERT INTO regle (Nom) VALUE (?)")
+	stmt, err := Bdd.Prepare("INSERT INTO regle (Nom) VALUE (?)")
 	help.CheckErr(err)
 
 	reponse, err := stmt.Exec(regle.Nom)
@@ -25,7 +25,7 @@ func (regle *Regle) Create() {
 }
 
 func (regle *Regle) Delete() bool {
-	stmt, err := db.Prepare("DELETE FROM regle WHERE id=?")
+	stmt, err := Bdd.Prepare("DELETE FROM regle WHERE id=?")
 	help.CheckErr(err)
 
 	reponse, err := stmt.Exec(regle.Id)
@@ -43,7 +43,7 @@ func (regle *Regle) Delete() bool {
 func GetRegles(max int) []Regle {
 	var regles []Regle
 
-	stmt, err := db.Query("SELECT * FROM regle LIMIT ?")
+	stmt, err := Bdd.Query("SELECT * FROM regle LIMIT ?")
 	help.CheckErr(err)
 
 	for stmt.Next() {

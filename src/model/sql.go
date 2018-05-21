@@ -9,16 +9,18 @@ import (
 	help "../helper"
 )
 
-var db *sql.DB
+var Bdd *sql.DB
 
 func TestSql() {
 	fmt.Println("test sql")
 }
 
-func Connect() {
+func InitBdd() *sql.DB {
 	var err error
-	db, err = sql.Open("mysql", "root:@/alea_data_est?charset=utf8")
+	Bdd, err = sql.Open("mysql", "root:@/alea_data_est?charset=utf8")
 	help.CheckErr(err)
+
+	return Bdd
 }
 
 // func getRessourceFullStructure(id int) string {

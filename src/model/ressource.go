@@ -5,15 +5,15 @@ import (
 )
 
 type Ressource struct {
-	Id           int     `json:"id"`
-	Nom          string  `json:"nom"`
-	Createur     string  `json:"createur"`
-	DateCreation string  `json:"date_creation"`
-	Champs       []Champ `json:"champs"`
+	Id           int     `json:"id,omitempty"`
+	Nom          string  `json:"nom,omitempty"`
+	Createur     string  `json:"createur,omitempty"`
+	DateCreation string  `json:"date_creation,omitempty"`
+	Champs       []Champ `json:"champs,omitempty"`
 }
 
 func (ress *Ressource) Create() {
-	stmt, err := db.Prepare("INSERT INTO ressource (nom, createur) VALUE (?, ?)")
+	stmt, err := Bdd.Prepare("INSERT INTO ressource (nom, createur) VALUE (?, ?)")
 	help.CheckErr(err)
 
 	reponse, err := stmt.Exec(ress.Nom, ress.Createur)
@@ -27,7 +27,7 @@ func (ress *Ressource) Create() {
 }
 
 func (ress *Ressource) Delete() bool {
-	stmt, err := db.Prepare("DELETE FROM ressource WHERE id=?")
+	stmt, err := Bdd.Prepare("DELETE FROM ressource WHERE id=?")
 	help.CheckErr(err)
 
 	reponse, err := stmt.Exec(ress.Id)
@@ -57,7 +57,7 @@ func (ress *Ressource) Delete() bool {
 // }
 
 func GetRessources(max int) []Ressource {
-	stmt, err := db.Query("SELECT * FROM ressource LIMIT ?", max)
+	stmt, err := Bdd.Query("SELECT * FROM ressource LIMIT ?", max)
 	help.CheckErr(err)
 	
 	var ress []Ressource
@@ -80,7 +80,8 @@ func GetRessources(max int) []Ressource {
 }
 
 func GetRessource(id_look int) Ressource {
-	reponse, err := db.Query("SELECT ressource.*, champ.clef FROM ressource LEFT OUTER JOIN champ ON champ.ressource_id = ressource.id WHERE ressource.id = ? ORDER BY clef", id_look)
+	req := "SELECT ressource.*, champ.clef FROM ressource LEFT OUTER JOIN champ ON champ.ressource_id = ressource.id WHERE ressource.id = ? ORDER BY clef"
+	reponse, err := Bdd.Query(req, id_look)
 	help.CheckErr(err)
 	defer reponse.Close()
 
@@ -113,7 +114,7 @@ func GetRessource(id_look int) Ressource {
 // func (ress *Ressource) Hydrate() {
 // 	req := "SELECT ressource.*, champ.clef FROM ressource LEFT OUTER JOIN champ ON champ.ressource_id = ressource.id WHERE ressource.id = ? ORDER BY clef"
 	
-// 	stmt, err := db.Query(req, id)
+// 	stmt, err := Bdd.Query(req, id)
 // 	help.CheckErr(err)
 
 // 	stmt.Next()

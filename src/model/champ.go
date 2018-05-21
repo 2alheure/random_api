@@ -3,13 +3,13 @@ package model
 import help "../helper"
 
 type Champ struct {
-	Id    int    `json:"id"`
-	Clef  string `json:"clef"`
-	Regle Regle  `json:"regle"`
+	Id    int    `json:"id,omitempty"`
+	Clef  string `json:"clef,omitempty"`
+	Regle *Regle  `json:"regle,omitempty"`
 }
 
 func (champ *Champ) Create() {
-	stmt, err := db.Prepare("INSERT INTO champ (clef) VALUE (?)")
+	stmt, err := Bdd.Prepare("INSERT INTO champ (clef) VALUE (?)")
 	help.CheckErr(err)
 
 	reponse, err := stmt.Exec(champ.Clef)
@@ -22,7 +22,7 @@ func (champ *Champ) Create() {
 }
 
 func (champ *Champ) Delete() bool {
-	stmt, err := db.Prepare("DELETE FROM champ WHERE id=?")
+	stmt, err := Bdd.Prepare("DELETE FROM champ WHERE id=?")
 	help.CheckErr(err)
 
 	reponse, err := stmt.Exec(champ.Id)
@@ -46,7 +46,7 @@ func (champ *Champ) Delete() bool {
 func GetChamps(max int) []Champ {
 	var champs []Champ
 
-	stmt, err := db.Query("SELECT * FROM champ LIMIT ?", max)
+	stmt, err := Bdd.Query("SELECT * FROM champ LIMIT ?", max)
 	help.CheckErr(err)
 
 	for stmt.Next() {
