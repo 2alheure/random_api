@@ -1,7 +1,7 @@
 package model
 
 import (
-	help "../helper"
+	help "random_api/src/helper"
 )
 
 type Ressource struct {
@@ -80,10 +80,10 @@ func GetRessources(max int) []Ressource {
 }
 
 func GetRessource(id_look int) Ressource {
-	req := "SELECT ressource.*, champ.clef FROM ressource LEFT OUTER JOIN champ ON champ.ressource_id = ressource.id WHERE ressource.id = ? ORDER BY clef"
+	req := "SELECT * FROM ressource WHERE ressource.id = ?"
 	reponse, err := Bdd.Query(req, id_look)
-	help.CheckErr(err)
 	defer reponse.Close()
+	help.CheckErr(err)
 
 	reponse.Next()
 
@@ -97,7 +97,6 @@ func GetRessource(id_look int) Ressource {
 		Nom: nom, 
 		Createur: createur, 
 		DateCreation: date,
-		Champs: make([]Champ, 0),
 	}
 
 	ress.Champs = append(ress.Champs, Champ{Clef: clef})
@@ -108,16 +107,19 @@ func GetRessource(id_look int) Ressource {
 		ress.Champs = append(ress.Champs, Champ{Clef: clef})
 	}
 
+	ress.Hydrate()
 	return ress
 }
 
-// func (ress *Ressource) Hydrate() {
-// 	req := "SELECT ressource.*, champ.clef FROM ressource LEFT OUTER JOIN champ ON champ.ressource_id = ressource.id WHERE ressource.id = ? ORDER BY clef"
+func (ress *Ressource) Hydrate() {
+	// req := "SELECT ressource.*, champ.clef FROM ressource LEFT OUTER JOIN champ ON champ.ressource_id = ressource.id WHERE ressource.id = ? ORDER BY clef"
 	
-// 	stmt, err := Bdd.Query(req, id)
-// 	help.CheckErr(err)
+	// stmt, err := Bdd.Query(req, ress.Id)
+	// help.CheckErr(err)
 
-// 	stmt.Next()
-// 	ret := Ressource{Id: }
-// }
+	// stmt.Next()
+	// ret := Ressource{Id: 3}
+
+	ress.Id = 3
+}
 
