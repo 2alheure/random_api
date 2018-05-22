@@ -1,7 +1,7 @@
 package model
 
 import (
-	help "../helper"
+	help "random_api/src/helper"
 )
 
 type Regle struct {

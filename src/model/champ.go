@@ -1,6 +1,6 @@
 package model
 
-import help "../helper"
+import help "random_api/src/helper"
 
 type Champ struct {
 	Id    int    `json:"id,omitempty"`

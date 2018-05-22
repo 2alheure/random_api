@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	help "../helper"
-	model "../model"
+	help "random_api/src/helper"
+	model "random_api/src/model"
 )
 
 func GetRessources(w http.ResponseWriter, r *http.Request) {
