@@ -23,8 +23,7 @@ func (ress *Ressource) Create() {
 	id, err := reponse.LastInsertId()
 	help.CheckErr(err)
 
-	ret := GetRessource(int(id))
-	ress = &ret
+	ress.Id = int(id)
 }
 
 func (ress *Ressource) Delete() bool {
@@ -111,12 +110,13 @@ func (ress *Ressource) Hydrate() {
 	defer stmt.Close()
 	help.CheckErr(err)
 
-	var champ_id, regle_id int64
-	var clef, regle, parametres string
-	var rule Regle
-	var params []Parametre
-
+	
 	for stmt.Next() {
+		var champ_id, regle_id int64
+		var clef, regle, parametres string
+		var rule Regle
+		var params []Parametre
+		
 		err = stmt.Scan(&clef, &champ_id, &regle, &regle_id, &parametres)
 		help.CheckErr(err)
 		
