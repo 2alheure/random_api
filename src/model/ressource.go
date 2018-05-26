@@ -1,6 +1,7 @@
 package model
 
 import (
+	"encoding/json"
 	help "random_api/src/helper"
 )
 
@@ -45,7 +46,7 @@ func (ress *Ressource) Delete() bool {
 // func (ress *Ressource) Generate(n int) []Ressource {
 // // On va créer un array qui récupère les clefs de chaque champ et leur associe une valeur
 // // La valeur de chaque champ vaudra champ.Generate
-// 	var ret = []Ressource
+// 	var ret = []map[string]Champ
 
 // 	for i := 0 ; i<n ; i++ {
 // 		for _, j := range ress.Champs {
@@ -88,8 +89,8 @@ func GetRessource(id_look int) Ressource {
 	reponse.Next()
 
 	var id int64
-	var nom, createur, date, clef string
-	err = reponse.Scan(&id, &nom, &createur, &date, &clef)
+	var nom, createur, date string
+	err = reponse.Scan(&id, &nom, &createur, &date)
 	help.CheckErr(err)
 	
 	ress := Ressource{
@@ -99,27 +100,40 @@ func GetRessource(id_look int) Ressource {
 		DateCreation: date,
 	}
 
-	ress.Champs = append(ress.Champs, Champ{Clef: clef})
-
-	for reponse.Next() {
-		err = reponse.Scan(&id, &nom, &createur, &date, &clef)
-		help.CheckErr(err)
-		ress.Champs = append(ress.Champs, Champ{Clef: clef})
-	}
-
 	ress.Hydrate()
 	return ress
 }
 
 func (ress *Ressource) Hydrate() {
-	// req := "SELECT ressource.*, champ.clef FROM ressource LEFT OUTER JOIN champ ON champ.ressource_id = ressource.id WHERE ressource.id = ? ORDER BY clef"
+	req := "SELECT champ.clef AS clef, champ.id AS champ_id, regle.nom AS regle, regle.id AS regle_id, CONCAT('[', GROUP_CONCAT(CONCAT('{\"id\": ', champ_parametre.id, ', \"type\": \"', parametre.nom, '\", \"value\": \"', champ_parametre.valeur, '\"}') ORDER BY regle_parametre.id), ']') AS parametres FROM ressource LEFT OUTER JOIN champ ON champ.ressource_id = ressource.id LEFT OUTER JOIN champ_parametre ON champ_parametre.champ_id = champ.id LEFT OUTER JOIN regle_parametre ON champ_parametre.regle_parametre_id = regle_parametre.id LEFT OUTER JOIN regle ON regle_parametre.regle_id = regle.id LEFT OUTER JOIN parametre ON regle_parametre.parametre_id = parametre.id WHERE ressource.id = ? GROUP BY champ_parametre.champ_id ORDER BY clef"
 	
-	// stmt, err := Bdd.Query(req, ress.Id)
-	// help.CheckErr(err)
+	stmt, err := Bdd.Query(req, ress.Id)
+	defer stmt.Close()
+	help.CheckErr(err)
 
-	// stmt.Next()
-	// ret := Ressource{Id: 3}
+	var champ_id, regle_id int64
+	var clef, regle, parametres string
+	var rule Regle
+	var params []Parametre
 
-	ress.Id = 3
+	for stmt.Next() {
+		err = stmt.Scan(&clef, &champ_id, &regle, &regle_id, &parametres)
+		help.CheckErr(err)
+		
+		err = json.Unmarshal([]byte(parametres), &params)
+		help.CheckErr(err)
+
+		rule = Regle{
+			Id: int(regle_id),
+			Nom: regle,
+			Parametres: params,
+		}
+
+		ress.Champs = append(ress.Champs, Champ{
+			Id: int(champ_id),
+			Clef: clef,
+			Regle: &rule,
+		})
+	}
 }
 

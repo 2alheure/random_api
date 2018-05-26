@@ -1,14 +1,14 @@
 package helper
 
 import (
-	"log"
+	"fmt"
 	"net/http"
 	json "encoding/json"
 )
 
 func CheckErr(err error) {
 	if err != nil {
-		log.Fatal(err.Error())
+		fmt.Println(err.Error())
 	}
 }
 

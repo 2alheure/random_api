@@ -2,6 +2,6 @@ package model
 
 type Parametre struct {
 	Id    int    `json:"id,omitempty"`
-	Nom   string `json:"nom,omitempty"`
+	Type   string `json:"type,omitempty"`
 	Value string `json:"value,omitempty"`
 }
