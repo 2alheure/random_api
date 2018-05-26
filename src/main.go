@@ -18,11 +18,27 @@ func main() {
 
 	router := mux.NewRouter()
 
+	/**
+	* @api {get} /ping Request to ping the server and check if it's working
+	* @apiVersion 1.0.0
+	* @apiName Ping
+	* @apiGroup Ping
+	* @apiSuccess {String} pong The user pong
+	*/
 	router.HandleFunc("/ping", Ping).Methods("GET")
 
 	router.HandleFunc("/ressource", controller.GetRessource).Methods("GET")
 	router.HandleFunc("/ressource", controller.CreateRessource).Methods("POST")
 	router.HandleFunc("/ressource", controller.DeleteRessource).Methods("DELETE")
+	
+	/**
+	* @api {get} /ressource/:max Request to get ressources
+	* @apiVersion 1.0.0
+	* @apiName GetRessources
+	* @apiGroup Ressources
+	*
+	* @apiParam {Number} max Set how many ressources you want to get
+	*/
 	router.HandleFunc("/ressources", controller.GetRessources).Methods("GET")
 	
 	log.Fatal(http.ListenAndServe(":8000", router))

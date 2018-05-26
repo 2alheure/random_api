@@ -1,0 +1,12 @@
+{
+  "name": "alea-data-est",
+  "version": "1.0.0",
+  "description": "Documentation - Alea Data Est - Generate random ressources",
+  "title": "Documentation",
+  "url" : "http://localhost:8000",
+  "sampleUrl": "https://localhost:8000",
+  "template": {
+  	"withCompare": false,
+  	"withGenerator": false
+  }
+}
