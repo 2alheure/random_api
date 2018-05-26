@@ -35,9 +35,9 @@ func main() {
 	router.HandleFunc("/ressource", controller.CreateRessource).Methods("POST")
 	router.HandleFunc("/ressource", controller.DeleteRessource).Methods("DELETE")
 	router.HandleFunc("/ressource", controller.OptionsRessource).Methods("OPTIONS")
-	
+
 	/**
-	* @api {get} /ressource/:max Request to get ressources
+	* @api {get} /ressources?max=:max Request to get ressources
 	* @apiVersion 1.0.0
 	* @apiName GetRessources
 	* @apiGroup Ressources
