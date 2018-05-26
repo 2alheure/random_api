@@ -89,8 +89,8 @@ func GetRessource(id_look int) Ressource {
 	reponse.Next()
 
 	var id int64
-	var nom, createur, date, clef string
-	err = reponse.Scan(&id, &nom, &createur, &date, &clef)
+	var nom, createur, date string
+	err = reponse.Scan(&id, &nom, &createur, &date)
 	help.CheckErr(err)
 	
 	ress := Ressource{
@@ -98,14 +98,6 @@ func GetRessource(id_look int) Ressource {
 		Nom: nom, 
 		Createur: createur, 
 		DateCreation: date,
-	}
-
-	ress.Champs = append(ress.Champs, Champ{Clef: clef})
-
-	for reponse.Next() {
-		err = reponse.Scan(&id, &nom, &createur, &date, &clef)
-		help.CheckErr(err)
-		ress.Champs = append(ress.Champs, Champ{Clef: clef})
 	}
 
 	ress.Hydrate()
