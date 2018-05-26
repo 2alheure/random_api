@@ -2,6 +2,7 @@ package model
 
 import (
 	help "random_api/src/helper"
+	"encoding/json"
 )
 
 type Regle struct {
@@ -43,16 +44,26 @@ func (regle *Regle) Delete() bool {
 func GetRegles(max int) []Regle {
 	var regles []Regle
 
-	stmt, err := Bdd.Query("SELECT * FROM regle LIMIT ?")
+	stmt, err := Bdd.Query("SELECT regle.nom AS regle, regle.id AS regle_id, CONCAT( '[', GROUP_CONCAT( CONCAT( '{\"id\": ', parametre.id, ', ' '\"type\": \"', parametre.nom, '\"}' ) ORDER BY regle_parametre.id ), ']' ) AS parametres FROM regle LEFT OUTER JOIN regle_parametre ON regle.id = regle_parametre.regle_id LEFT OUTER JOIN parametre ON regle_parametre.parametre_id = parametre.id GROUP BY regle_parametre.regle_id LIMIT ?", max)
 	help.CheckErr(err)
 
 	for stmt.Next() {
-		var id int
-		var nom string
-		err = stmt.Scan(&id, &nom)
+		var id int64
+		var nom, params string
+		var parametres []Parametre
+		err = stmt.Scan(&nom, &id, &params)
 		help.CheckErr(err)
 
-		regles = append(regles, Regle{Id: id, Nom: nom})
+		err = json.Unmarshal([]byte(params), &parametres)
+		help.CheckErr(err)
+
+		rule := Regle{
+			Id: int(id),
+			Nom: nom,
+			Parametres: parametres,
+		}
+
+		regles = append(regles, rule)
 	}
 
 	return regles

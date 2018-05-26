@@ -55,6 +55,9 @@ func main() {
 	router.HandleFunc("/champ", controller.DeleteChamp).Methods("DELETE")
 	router.HandleFunc("/champ", controller.OptionsChamp).Methods("OPTIONS")
 
+	router.HandleFunc("/regles", controller.GetRegles).Methods("GET")
+	router.HandleFunc("/regles", controller.OptionsRegles).Methods("OPTIONS")
+	
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
 

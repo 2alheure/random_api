@@ -51,6 +51,7 @@ Récupérer une ressource entière (pour Hydrater)
 	ORDER BY clef
 
 
+Récupérer un champ entier :
 	SELECT 
 		champ.clef AS clef,
 		champ.id AS champ_id,
@@ -75,4 +76,23 @@ Récupérer une ressource entière (pour Hydrater)
 	WHERE champ.id = ?
 	GROUP BY champ_parametre.champ_id
 
+
+Récupérer l'ensemble des règles et leurs paramètres :
+	SELECT
+    regle.nom AS regle,
+	regle.id AS regle_id,
+	CONCAT(
+		'[',
+		GROUP_CONCAT(
+			CONCAT(
+				'{\"id\": ', parametre.id, ', '
+				'\"type\": \"', parametre.nom, '\"}'
+			) ORDER BY regle_parametre.id
+		),
+		']'
+	) AS parametres
+	FROM regle
+	LEFT OUTER JOIN regle_parametre ON regle.id = regle_parametre.regle_id
+	LEFT OUTER JOIN parametre ON regle_parametre.parametre_id = parametre.id
+	GROUP BY regle_parametre.regle_id
 */
