@@ -31,6 +31,14 @@ func main() {
 	router.HandleFunc("/ping", Ping).Methods("DELETE")
 	router.HandleFunc("/ping", OptionsPing).Methods("OPTIONS")
 
+	/**
+	* @api {get} /ressource?id=:id Request to get one ressource
+	* @apiVersion 1.0.0
+	* @apiName GetRessource
+	* @apiGroup Ressource
+	*
+	* @apiParam {Number} id Ressource's id
+	*/
 	router.HandleFunc("/ressource", controller.GetRessource).Methods("GET")
 	router.HandleFunc("/ressource", controller.CreateRessource).Methods("POST")
 	router.HandleFunc("/ressource", controller.DeleteRessource).Methods("DELETE")
