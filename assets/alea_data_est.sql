@@ -139,7 +139,7 @@ CREATE TABLE `regle_parametre` (
 --
 
 INSERT INTO `regle_parametre` (`id`, `regle_id`, `parametre_id`) VALUES
-(1, 1, 1),
+(1, 1, 2),
 (2, 2, 3),
 (3, 3, 3),
 (4, 4, 3),

@@ -111,12 +111,13 @@ func (ress *Ressource) Hydrate() {
 	defer stmt.Close()
 	help.CheckErr(err)
 
-	var champ_id, regle_id int64
-	var clef, regle, parametres string
-	var rule Regle
-	var params []Parametre
-
+	
 	for stmt.Next() {
+		var champ_id, regle_id int64
+		var clef, regle, parametres string
+		var rule Regle
+		var params []Parametre
+		
 		err = stmt.Scan(&clef, &champ_id, &regle, &regle_id, &parametres)
 		help.CheckErr(err)
 		

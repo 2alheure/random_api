@@ -45,3 +45,24 @@ func DeleteRessource(w http.ResponseWriter, r *http.Request) {
 		help.ReturnJson(w, `{error: "A ressource couldn't be deleted."}`)
 	}
 }
+
+func OptionsRessources(w http.ResponseWriter, r *http.Request) {
+	options := []string{
+		"GET",
+		"OPTIONS",
+	}
+
+	help.ReturnOptions(w, options)
+}
+
+func OptionsRessource(w http.ResponseWriter, r *http.Request) {
+	options := []string{
+		"GET",
+		"POST",
+		"DELETE",
+		"OPTIONS",
+	}
+
+	help.ReturnOptions(w, options)
+}
+

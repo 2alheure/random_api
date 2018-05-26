@@ -3,6 +3,7 @@ package helper
 import (
 	"fmt"
 	"net/http"
+	"strings"
 	json "encoding/json"
 )
 
@@ -21,4 +22,10 @@ func ReturnJson(w http.ResponseWriter, to_json interface{}) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
+}
+
+func ReturnOptions(w http.ResponseWriter, options []string) {
+	opt := strings.Join(options, ", ")
+	w.Header().Set("Access-Control-Allow-Methods", opt)
+	w.Write(nil)
 }
