@@ -8,15 +8,6 @@ import (
 	model "random_api/src/model"
 )
 
-func GetRessources(w http.ResponseWriter, r *http.Request) {
-	max, err := strconv.Atoi(r.FormValue("max"))
-	help.CheckErr(err)
-
-	results := model.GetRessources(max)
-
-	help.ReturnJson(w, results)
-}
-
 func GetRessource(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.FormValue("id"))
 	help.CheckErr(err)
@@ -30,7 +21,7 @@ func CreateRessource(w http.ResponseWriter, r *http.Request) {
 	ress := model.Ressource{Nom: r.FormValue("nom"), Createur: r.FormValue("createur")}
 
 	ress.Create()
-	help.ReturnJson(w, ress)
+	help.Return(w, 201, ress)
 }
 
 func DeleteRessource(w http.ResponseWriter, r *http.Request) {
@@ -44,15 +35,6 @@ func DeleteRessource(w http.ResponseWriter, r *http.Request) {
 	} else {
 		help.ReturnJson(w, `{error: "A ressource couldn't be deleted."}`)
 	}
-}
-
-func OptionsRessources(w http.ResponseWriter, r *http.Request) {
-	options := []string{
-		"GET",
-		"OPTIONS",
-	}
-
-	help.ReturnOptions(w, options)
 }
 
 func OptionsRessource(w http.ResponseWriter, r *http.Request) {

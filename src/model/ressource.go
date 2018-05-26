@@ -23,8 +23,7 @@ func (ress *Ressource) Create() {
 	id, err := reponse.LastInsertId()
 	help.CheckErr(err)
 
-	ret := GetRessource(int(id))
-	ress = &ret
+	ress.Id = int(id)
 }
 
 func (ress *Ressource) Delete() bool {

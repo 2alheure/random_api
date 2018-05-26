@@ -16,7 +16,7 @@ func CheckErr(err error) {
 func ReturnJson(w http.ResponseWriter, to_json interface{}) {
 	js, err := json.Marshal(to_json)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "An Error Has Occured", http.StatusInternalServerError)
 		panic(err)
 	}
 
@@ -27,5 +27,15 @@ func ReturnJson(w http.ResponseWriter, to_json interface{}) {
 func ReturnOptions(w http.ResponseWriter, options []string) {
 	opt := strings.Join(options, ", ")
 	w.Header().Set("Access-Control-Allow-Methods", opt)
+	w.Write(nil)
+}
+
+func Return(w http.ResponseWriter, code int, to_json interface{}) {
+	w.WriteHeader(code)
+	ReturnJson(w, to_json)
+}
+
+func ReturnOK(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusOK)
 	w.Write(nil)
 }

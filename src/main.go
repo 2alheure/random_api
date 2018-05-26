@@ -31,7 +31,15 @@ func main() {
 
 	router.HandleFunc("/ressources", controller.GetRessources).Methods("GET")
 	router.HandleFunc("/ressources", controller.OptionsRessources).Methods("OPTIONS")
+
+	router.HandleFunc("/champs", controller.GetChamps).Methods("GET")
+	router.HandleFunc("/champs", controller.OptionsChamps).Methods("OPTIONS")
 	
+	router.HandleFunc("/champ", controller.GetChamp).Methods("GET")
+	router.HandleFunc("/champ", controller.CreateChamp).Methods("POST")
+	router.HandleFunc("/champ", controller.DeleteChamp).Methods("DELETE")
+	router.HandleFunc("/champ", controller.OptionsChamp).Methods("OPTIONS")
+
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
 
