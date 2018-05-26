@@ -6,15 +6,15 @@ import (
 
 	"github.com/gorilla/mux"
 
-	controller "./controller"
-	help "./helper"
-	model "./model"
+	controller "random_api/src/controller"
+	help "random_api/src/helper"
+	model "random_api/src/model"
 )
 
 func main() {
-	Bdd := model.InitBdd()
+	model.InitBdd()
 
-	defer Bdd.Close()
+	defer model.Bdd.Close()
 
 	router := mux.NewRouter()
 

@@ -15,12 +15,10 @@ func TestSql() {
 	fmt.Println("test sql")
 }
 
-func InitBdd() *sql.DB {
+func InitBdd() {
 	var err error
 	Bdd, err = sql.Open("mysql", "root:@/alea_data_est?charset=utf8")
 	help.CheckErr(err)
-
-	return Bdd
 }
 
 // func getRessourceFullStructure(id int) string {
