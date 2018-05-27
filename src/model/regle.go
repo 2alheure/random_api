@@ -12,6 +12,7 @@ type Regle struct {
 }
 
 
+/** NON
 func (regle *Regle) Create() {
 	stmt, err := Bdd.Prepare("INSERT INTO regle (Nom) VALUE (?)")
 	help.CheckErr(err)
@@ -24,7 +25,9 @@ func (regle *Regle) Create() {
 
 	regle.Id = int(id)
 }
+*/
 
+/** NON
 func (regle *Regle) Delete() bool {
 	stmt, err := Bdd.Prepare("DELETE FROM regle WHERE id=?")
 	help.CheckErr(err)
@@ -40,6 +43,7 @@ func (regle *Regle) Delete() bool {
 	}
 	return true
 }
+*/
 
 func GetRegles(max int) []Regle {
 	var regles []Regle
@@ -67,4 +71,28 @@ func GetRegles(max int) []Regle {
 	}
 
 	return regles
+}
+
+func GetRegle(id int) Regle {
+	stmt, err := Bdd.Query("SELECT regle.nom AS regle, regle.id AS regle_id, CONCAT( '[', GROUP_CONCAT( CONCAT( '{\"id\": ', parametre.id, ', ' '\"type\": \"', parametre.nom, '\"}' ) ORDER BY regle_parametre.id ), ']' ) AS parametres FROM regle LEFT OUTER JOIN regle_parametre ON regle.id = regle_parametre.regle_id LEFT OUTER JOIN parametre ON regle_parametre.parametre_id = parametre.id GROUP BY regle_parametre.regle_id WHERE regle.id = ?", id)
+	help.CheckErr(err)
+
+	stmt.Next()
+
+	var regle_id int64
+	var nom, params string
+	var parametres []Parametre
+	err = stmt.Scan(&nom, &regle_id, &params)
+	help.CheckErr(err)
+
+	err = json.Unmarshal([]byte(params), &parametres)
+	help.CheckErr(err)
+
+	regle := Regle{
+		Id: int(regle_id),
+		Nom: nom,
+		Parametres: parametres,
+	}
+
+	return regle
 }

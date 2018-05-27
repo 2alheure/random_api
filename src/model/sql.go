@@ -57,17 +57,17 @@ Récupérer un champ entier :
 		champ.id AS champ_id,
 		regle.nom AS regle,
 		regle.id AS regle_id,
-	CONCAT(
-		'[',
-		GROUP_CONCAT(
-			CONCAT(
-				'{\"id\": ', champ_parametre.id, ', '
-				'\"type\": \"', parametre.nom, '\", '
-				'\"value\": \"', champ_parametre.valeur, '\"}'
-			) ORDER BY regle_parametre.id
-		),
-		']'
-	) AS parametres
+		CONCAT(
+			'[',
+			GROUP_CONCAT(
+				CONCAT(
+					'{\"id\": ', champ_parametre.id, ', '
+					'\"type\": \"', parametre.nom, '\", '
+					'\"value\": \"', champ_parametre.valeur, '\"}'
+				) ORDER BY regle_parametre.id
+			),
+			']'
+		) AS parametres
 	FROM champ
 	LEFT OUTER JOIN champ_parametre ON champ_parametre.champ_id = champ.id
 	LEFT OUTER JOIN regle_parametre ON champ_parametre.regle_parametre_id = regle_parametre.id

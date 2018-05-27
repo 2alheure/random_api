@@ -99,7 +99,6 @@ func GetRessource(id_look int) Ressource {
 		DateCreation: date,
 	}
 
-	ress.Hydrate()
 	return ress
 }
 

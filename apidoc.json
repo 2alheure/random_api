@@ -10,13 +10,14 @@
   },
   "order": [
     "Ping",
-    "Ressources",
+    "Generate",
     "Ressource",
-    "Champs",
+    "Ressources",
     "Champ",
-    "Regles",
+    "Champs",
     "Regle",
-    "Parametres",
-    "Parametre"
+    "Regles",
+    "Parametre",
+    "Parametres"
   ]
 }

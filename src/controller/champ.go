@@ -13,6 +13,7 @@ func GetChamp(w http.ResponseWriter, r *http.Request) {
 	help.CheckErr(err)
 
 	champ := model.GetChamp(id)
+	champ.Hydrate()
 
 	help.ReturnJson(w, champ)
 }
@@ -22,6 +23,29 @@ func CreateChamp(w http.ResponseWriter, r *http.Request) {
 
 	champ.Create()
 	help.Return(w, 201, champ)
+}
+
+func ModifyChamp(w http.ResponseWriter, r *http.Request) {
+	id := r.FormValue("id")
+
+	if id == "" {
+		help.Return(w, 400, nil)
+	} else {
+		id, err := strconv.Atoi(r.FormValue("id"))
+		help.CheckErr(err)
+	
+		champ := model.GetChamp(id);
+		
+		if champ == (model.Champ{}) {
+			help.Return(w, 404, nil)
+		} else {
+			err := r.ParseForm()
+			help.CheckErr(err)
+			
+			champ.Modify(r.Form)
+			help.ReturnOK(w)
+		}
+	}
 }
 
 func DeleteChamp(w http.ResponseWriter, r *http.Request) {
@@ -41,6 +65,7 @@ func OptionsChamp(w http.ResponseWriter, r *http.Request) {
 	options := []string{
 		"GET",
 		"POST",
+		"PUT",
 		"DELETE",
 		"OPTIONS",
 	}

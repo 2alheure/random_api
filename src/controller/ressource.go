@@ -13,11 +13,19 @@ func GetRessource(w http.ResponseWriter, r *http.Request) {
 	help.CheckErr(err)
 
 	ress := model.GetRessource(id)
+	ress.Hydrate()
 
 	help.ReturnJson(w, ress)
 }
 
 func CreateRessource(w http.ResponseWriter, r *http.Request) {
+	ress := model.Ressource{Nom: r.FormValue("nom"), Createur: r.FormValue("createur")}
+
+	ress.Create()
+	help.Return(w, 201, ress)
+}
+
+func ModifyRessource(w http.ResponseWriter, r *http.Request) {
 	ress := model.Ressource{Nom: r.FormValue("nom"), Createur: r.FormValue("createur")}
 
 	ress.Create()
