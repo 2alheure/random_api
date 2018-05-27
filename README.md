@@ -12,7 +12,7 @@ Elle a été générée en utilisant [apidoc](http://apidocjs.com).
 ## TODO
 
 - [x] type struct des models
-- [ ] fonctions d'hydratation des type struct
+- [x] fonctions d'hydratation des type struct
 - [ ] fonctions de génération des model.type
 - [ ] fonction de génération d'une ressource (en parcours en profondeur / largeur)
 - [x] fonction helper d'output JSON

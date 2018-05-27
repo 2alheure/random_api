@@ -3,6 +3,7 @@ package model
 import (
 	// "encoding/json"
 	"net/url"
+	_ "fmt"
 	help "random_api/src/helper"
 )
 
@@ -33,14 +34,14 @@ func (champ *Champ) Modify(form url.Values) {
 				stmt, err := Bdd.Prepare("UPDATE champ SET id_ressource = ? WHERE id = ?")
 				help.CheckErr(err)
 				
-				_, err = stmt.Exec(val, champ.Id)
+				_, err = stmt.Exec(val[0], champ.Id)
 				help.CheckErr(err)
 				break;
 			case "clef":
 				stmt, err := Bdd.Prepare("UPDATE champ SET clef = ? WHERE id = ?")
 				help.CheckErr(err)
 				
-				_, err = stmt.Exec(val, champ.Id)
+				_, err = stmt.Exec(val[0], champ.Id)
 				help.CheckErr(err)
 				break;
 		}

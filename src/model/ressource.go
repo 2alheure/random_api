@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"net/url"
 	help "random_api/src/helper"
 )
 
@@ -24,6 +25,27 @@ func (ress *Ressource) Create() {
 	help.CheckErr(err)
 
 	ress.Id = int(id)
+}
+
+func (ress *Ressource) Modify(form url.Values) {
+	for key, val := range form {
+		switch key {
+			case "nom":
+				stmt, err := Bdd.Prepare("UPDATE ressource SET nom = ? WHERE id = ?")
+				help.CheckErr(err)
+				
+				_, err = stmt.Exec(val[0], ress.Id)
+				help.CheckErr(err)
+				break;
+			case "createur":
+				stmt, err := Bdd.Prepare("UPDATE ressource SET createur = ? WHERE id = ?")
+				help.CheckErr(err)
+				
+				_, err = stmt.Exec(val[0], ress.Id)
+				help.CheckErr(err)
+				break;
+		}
+	}
 }
 
 func (ress *Ressource) Delete() bool {
@@ -57,7 +79,7 @@ func (ress *Ressource) Delete() bool {
 // }
 
 func GetRessources(max int) []Ressource {
-	stmt, err := Bdd.Query("SELECT * FROM ressource LIMIT ?", max)
+	stmt, err := Bdd.Query("SELECT * FROM ressource ORDER BY date_creation DESC LIMIT ?", max)
 	help.CheckErr(err)
 	
 	var ress []Ressource
@@ -79,7 +101,7 @@ func GetRessources(max int) []Ressource {
 	return ress
 }
 
-func GetRessource(id_look int) Ressource {
+func GetRessource(id_look int) (Ressource, error) {
 	req := "SELECT * FROM ressource WHERE ressource.id = ?"
 	reponse, err := Bdd.Query(req, id_look)
 	defer reponse.Close()
@@ -99,7 +121,7 @@ func GetRessource(id_look int) Ressource {
 		DateCreation: date,
 	}
 
-	return ress
+	return ress, err
 }
 
 func (ress *Ressource) Hydrate() {

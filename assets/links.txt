@@ -9,3 +9,4 @@ https://miek.nl/go/		- Go Tuto
 https://nordicapis.com/7-frameworks-to-build-a-rest-api-in-go/		- 7 frameworks Go API
 https://dev.to/codehakase/building-a-restful-api-with-go		- Mini tuto API Go
 https://github.com/lucasjones/reggen			- Reggen, générateur de strings à partir de regex
+https://gowebexamples.com/routes-using-gorilla-mux/			- Go tuto by example

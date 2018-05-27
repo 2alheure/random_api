@@ -31,8 +31,13 @@ func ReturnOptions(w http.ResponseWriter, options []string) {
 }
 
 func Return(w http.ResponseWriter, code int, to_json interface{}) {
-	w.WriteHeader(code)
-	ReturnJson(w, to_json)
+	if to_json != nil{
+		w.Header().Set("Content-Type", "application/json")	
+		w.WriteHeader(code)
+		ReturnJson(w, to_json)
+	} else {
+		w.WriteHeader(code)
+	}
 }
 
 func ReturnOK(w http.ResponseWriter) {

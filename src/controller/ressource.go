@@ -12,10 +12,14 @@ func GetRessource(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.FormValue("id"))
 	help.CheckErr(err)
 
-	ress := model.GetRessource(id)
-	ress.Hydrate()
+	ress, err := model.GetRessource(id)
 
-	help.ReturnJson(w, ress)
+	if err != nil {
+		help.Return(w, 404, nil)
+	} else {
+		ress.Hydrate()
+		help.ReturnJson(w, ress)
+	}
 }
 
 func CreateRessource(w http.ResponseWriter, r *http.Request) {
@@ -26,10 +30,26 @@ func CreateRessource(w http.ResponseWriter, r *http.Request) {
 }
 
 func ModifyRessource(w http.ResponseWriter, r *http.Request) {
-	ress := model.Ressource{Nom: r.FormValue("nom"), Createur: r.FormValue("createur")}
+	id := r.FormValue("id")
 
-	ress.Create()
-	help.Return(w, 201, ress)
+	if id == "" {
+		help.Return(w, 400, nil)
+	} else {
+		id, err := strconv.Atoi(r.FormValue("id"))
+		help.CheckErr(err)
+	
+		ress, err := model.GetRessource(id);
+		
+		if err != nil {
+			help.Return(w, 404, nil)
+		} else {
+			err = r.ParseForm()
+			help.CheckErr(err)
+			
+			ress.Modify(r.Form)
+			help.ReturnOK(w)
+		}
+	}
 }
 
 func DeleteRessource(w http.ResponseWriter, r *http.Request) {
@@ -39,9 +59,9 @@ func DeleteRessource(w http.ResponseWriter, r *http.Request) {
 	ress := model.Ressource{Id: int(id)}
 
 	if ress.Delete() {
-		help.ReturnJson(w, `{OK}`)
+		help.ReturnOK(w)
 	} else {
-		help.ReturnJson(w, `{error: "A ressource couldn't be deleted."}`)
+		help.Return(w, 404, nil)
 	}
 }
 

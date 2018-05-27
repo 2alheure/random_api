@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 	"strconv"
+	_ "fmt"
 
 	help "random_api/src/helper"
 	model "random_api/src/model"

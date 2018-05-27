@@ -33,7 +33,7 @@ USE `alea_data_est`;
 
 CREATE TABLE `champ` (
   `id` int(10) UNSIGNED NOT NULL,
-  `ressource_id` int(10) UNSIGNED NOT NULL,
+  `ressource_id` int(10) UNSIGNED,
   `clef` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

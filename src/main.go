@@ -177,6 +177,17 @@ func main() {
 	*/
 	router.HandleFunc("/ressource", controller.CreateRessource).Methods("POST")
 	/**
+	* @api {put} /ressource Modifier
+	* @apiDescription Modifie une ressource
+	* @apiVersion 0.3.0
+	* @apiGroup Ressource
+	*
+	* @apiParam {String} id L'id de la ressource à modifier
+	* @apiParam {String} [nom] Le nouveau nom de la ressource
+	* @apiParam {Number} [createur] Le nom de la personne à qui réaffecter la création de la ressource
+	*/
+	router.HandleFunc("/ressource", controller.ModifyRessource).Methods("PUT")
+	/**
 	* @api {delete} /ressource Supprimer
 	* @apiDescription Supprime une ressource
 	* @apiVersion 0.3.0

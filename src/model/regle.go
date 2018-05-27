@@ -74,7 +74,7 @@ func GetRegles(max int) []Regle {
 }
 
 func GetRegle(id int) Regle {
-	stmt, err := Bdd.Query("SELECT regle.nom AS regle, regle.id AS regle_id, CONCAT( '[', GROUP_CONCAT( CONCAT( '{\"id\": ', parametre.id, ', ' '\"type\": \"', parametre.nom, '\"}' ) ORDER BY regle_parametre.id ), ']' ) AS parametres FROM regle LEFT OUTER JOIN regle_parametre ON regle.id = regle_parametre.regle_id LEFT OUTER JOIN parametre ON regle_parametre.parametre_id = parametre.id GROUP BY regle_parametre.regle_id WHERE regle.id = ?", id)
+	stmt, err := Bdd.Query("SELECT regle.nom AS regle, regle.id AS regle_id, CONCAT( '[', GROUP_CONCAT( CONCAT( '{\"id\": ', parametre.id, ', ' '\"type\": \"', parametre.nom, '\"}' ) ORDER BY regle_parametre.id ), ']' ) AS parametres FROM regle LEFT OUTER JOIN regle_parametre ON regle.id = regle_parametre.regle_id LEFT OUTER JOIN parametre ON regle_parametre.parametre_id = parametre.id WHERE regle.id = ? GROUP BY regle_parametre.regle_id", id)
 	help.CheckErr(err)
 
 	stmt.Next()
