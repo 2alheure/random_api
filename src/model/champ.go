@@ -3,15 +3,17 @@ package model
 import (
 	// "encoding/json"
 	"net/url"
+	"gopkg.in/guregu/null.v3"
+	
 	_ "fmt"
 	help "random_api/src/helper"
 )
 
 type Champ struct {
-	Id    			int    	`json:"id,omitempty"`
-	Clef  			string 	`json:"clef,omitempty"`
-	RessourceId    	int		`json:"ressource_id,omitempty"`
-	Regle 			*Regle	`json:"regle,omitempty"`
+	Id    			int    			`json:"id,omitempty"`
+	Clef  			null.String 	`json:"clef,omitempty"`
+	RessourceId    	null.Int		`json:"ressource_id,omitempty"`
+	Regle 			*Regle			`json:"regle,omitempty"`
 }
 
 func (champ *Champ) Create() {
@@ -73,16 +75,15 @@ func (champ *Champ) Delete() bool {
 func GetChamps(max int) []Champ {
 	var champs []Champ
 
-	stmt, err := Bdd.Query("SELECT id, clef FROM champ LIMIT ?", max)
+	stmt, err := Bdd.Query("SELECT id, clef, ressource_id FROM champ LIMIT ?", max)
 	help.CheckErr(err)
 
 	for stmt.Next() {
-		var id int
-		var clef string
-		err = stmt.Scan(&id, &clef)
+		var champ Champ
+		err = stmt.Scan(&champ.Id, &champ.Clef, &champ.RessourceId)
 		help.CheckErr(err)
-
-		champs = append(champs, Champ{Id: id, Clef: clef})
+	
+		champs = append(champs, champ)
 	}
 
 	return champs
@@ -96,13 +97,10 @@ func GetChamp(id_look int) Champ {
 
 	reponse.Next()
 
-	var id int
-	var clef string
-	err = reponse.Scan(&id, &clef)
+	var champ Champ
+	err = reponse.Scan(&champ.Id, &champ.Clef)
 	help.CheckErr(err)
 
-	champ := Champ{Id: id, Clef: clef}
-	
 	return champ
 }
 
@@ -115,14 +113,15 @@ func (champ *Champ) Hydrate() {
 
 	
 	stmt.Next()
-	var ressource_id, regle_id int64
+	var ressource_id, regle_id null.Int
 	
 	err = stmt.Scan(&ressource_id, &regle_id)
 	help.CheckErr(err)
 	
-	champ.RessourceId = int(ressource_id)
-	regle := GetRegle(int(regle_id))
-	champ.Regle = &regle
+	champ.RessourceId = ressource_id
+
+	if regle_id.Valid {
+		regle := GetRegle(int(regle_id.Int64))
+		champ.Regle = &regle
+	}
 }
-
-

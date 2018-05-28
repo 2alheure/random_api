@@ -3,15 +3,17 @@ package model
 import (
 	"encoding/json"
 	"net/url"
+	"gopkg.in/guregu/null.v3"
+
 	help "random_api/src/helper"
 )
 
 type Ressource struct {
-	Id           int     `json:"id,omitempty"`
-	Nom          string  `json:"nom,omitempty"`
-	Createur     string  `json:"createur,omitempty"`
-	DateCreation string  `json:"date_creation,omitempty"`
-	Champs       []Champ `json:"champs,omitempty"`
+	Id           int     		`json:"id,omitempty"`
+	Nom          null.String  	`json:"nom,omitempty"`
+	Createur     null.String  	`json:"createur,omitempty"`
+	DateCreation null.String  	`json:"date_creation,omitempty"`
+	Champs       []*Champ 		`json:"champs,omitempty"`
 }
 
 func (ress *Ressource) Create() {
@@ -24,7 +26,11 @@ func (ress *Ressource) Create() {
 	id, err := reponse.LastInsertId()
 	help.CheckErr(err)
 
-	ress.Id = int(id)
+	ressource, err := GetRessource(int(id))
+	help.CheckErr(err)
+
+	ress.DateCreation = ressource.DateCreation
+	ress.Id = ressource.Id
 }
 
 func (ress *Ressource) Modify(form url.Values) {
@@ -85,17 +91,11 @@ func GetRessources(max int) []Ressource {
 	var ress []Ressource
 	
 	for stmt.Next() {
-		var id int64
-		var nom, createur, date string
-		err = stmt.Scan(&id, &nom, &createur, &date)
+		var ressource Ressource
+		err = stmt.Scan(&ressource.Id, &ressource.Nom, &ressource.Createur, &ressource.DateCreation)
 		help.CheckErr(err)
 
-		ress = append(ress, Ressource{
-			Id: int(id), 
-			Nom: nom, 
-			Createur: createur, 
-			DateCreation: date,
-		})
+		ress = append(ress, ressource)
 	}
 
 	return ress
@@ -109,18 +109,10 @@ func GetRessource(id_look int) (Ressource, error) {
 
 	reponse.Next()
 
-	var id int64
-	var nom, createur, date string
-	err = reponse.Scan(&id, &nom, &createur, &date)
+	var ress Ressource
+	err = reponse.Scan(&ress.Id, &ress.Nom, &ress.Createur, &ress.DateCreation)
 	help.CheckErr(err)
 	
-	ress := Ressource{
-		Id: int(id), 
-		Nom: nom, 
-		Createur: createur, 
-		DateCreation: date,
-	}
-
 	return ress, err
 }
 
@@ -133,25 +125,25 @@ func (ress *Ressource) Hydrate() {
 
 	
 	for stmt.Next() {
-		var champ_id, regle_id int64
-		var clef, regle, parametres string
+		var champ_id, regle_id null.Int
+		var clef, regle, parametres null.String
 		var rule Regle
 		var params []Parametre
 		
 		err = stmt.Scan(&clef, &champ_id, &regle, &regle_id, &parametres)
 		help.CheckErr(err)
 		
-		err = json.Unmarshal([]byte(parametres), &params)
+		err = json.Unmarshal([]byte(parametres.String), &params)
 		help.CheckErr(err)
 
 		rule = Regle{
-			Id: int(regle_id),
-			Nom: regle,
+			Id: int(regle_id.Int64),
+			Nom: regle.String,
 			Parametres: params,
 		}
 
-		ress.Champs = append(ress.Champs, Champ{
-			Id: int(champ_id),
+		ress.Champs = append(ress.Champs, &Champ{
+			Id: int(champ_id.Int64),
 			Clef: clef,
 			Regle: &rule,
 		})

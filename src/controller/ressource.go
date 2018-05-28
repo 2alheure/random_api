@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 	"strconv"
+    "gopkg.in/guregu/null.v3"
 
 	help "random_api/src/helper"
 	model "random_api/src/model"
@@ -23,7 +24,7 @@ func GetRessource(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateRessource(w http.ResponseWriter, r *http.Request) {
-	ress := model.Ressource{Nom: r.FormValue("nom"), Createur: r.FormValue("createur")}
+	ress := model.Ressource{Nom: null.NewString(r.FormValue("nom"), true), Createur: null.NewString(r.FormValue("createur"), true)}
 
 	ress.Create()
 	help.Return(w, 201, ress)

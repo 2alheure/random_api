@@ -11,40 +11,6 @@ type Regle struct {
 	Parametres []Parametre `json:"parametres,omitempty"`
 }
 
-
-/** NON
-func (regle *Regle) Create() {
-	stmt, err := Bdd.Prepare("INSERT INTO regle (Nom) VALUE (?)")
-	help.CheckErr(err)
-
-	reponse, err := stmt.Exec(regle.Nom)
-	help.CheckErr(err)
-
-	id, err := reponse.LastInsertId()
-	help.CheckErr(err)
-
-	regle.Id = int(id)
-}
-*/
-
-/** NON
-func (regle *Regle) Delete() bool {
-	stmt, err := Bdd.Prepare("DELETE FROM regle WHERE id=?")
-	help.CheckErr(err)
-
-	reponse, err := stmt.Exec(regle.Id)
-	help.CheckErr(err)
-
-	affect, err := reponse.RowsAffected()
-	help.CheckErr(err)
-
-	if affect != 1 {
-		return false
-	}
-	return true
-}
-*/
-
 func GetRegles(max int) []Regle {
 	var regles []Regle
 
@@ -95,4 +61,36 @@ func GetRegle(id int) Regle {
 	}
 
 	return regle
+}
+
+func AttachRule(regle_id, champ_id int) bool {
+	stmt, err := Bdd.Prepare("INSERT INTO champ_parametre (champ_id, regle_parametre_id) SELECT champ.id AS champ, t.id FROM champ CROSS JOIN (SELECT id FROM regle_parametre WHERE regle_parametre.regle_id = ?) AS t WHERE champ.id = ?")
+	help.CheckErr(err)
+
+	reponse, err := stmt.Exec(regle_id, champ_id)
+	help.CheckErr(err)
+
+	id, err := reponse.LastInsertId()
+	help.CheckErr(err)
+
+	if id < 1 {
+		return false
+	}
+	return true
+}
+
+func DetachRule(champ_id int) bool {
+	stmt, err := Bdd.Prepare("DELETE FROM champ_parametre WHERE champ_id=?")
+	help.CheckErr(err)
+
+	reponse, err := stmt.Exec(champ_id)
+	help.CheckErr(err)
+
+	affect, err := reponse.RowsAffected()
+	help.CheckErr(err)
+
+	if affect < 1 {
+		return false
+	}
+	return true
 }

@@ -17,7 +17,7 @@ Elle a été générée en utilisant [apidoc](http://apidocjs.com).
 - [ ] fonction de génération d'une ressource (en parcours en profondeur / largeur)
 - [x] fonction helper d'output JSON
 - [x] fonctions qui handle une requête HTTP
-- [ ] routes HTTP
+- [x] routes HTTP
   
 ## Evolutions ?
 

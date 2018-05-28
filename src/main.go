@@ -27,35 +27,30 @@ func main() {
 	/**
 	* @api {get} /ping Get
 	* @apiDescription Ping le serveur pour vérifier qu'il fonctionne
-	* @apiVersion 0.3.0
 	* @apiGroup Ping
 	*/
 	router.HandleFunc("/ping", Ping).Methods("GET")
 	/**
 	* @api {post} /ping Post
 	* @apiDescription Ping le serveur pour vérifier qu'il fonctionne
-	* @apiVersion 0.3.0
 	* @apiGroup Ping
 	*/
 	router.HandleFunc("/ping", Ping).Methods("POST")
 	/**
 	* @api {put} /ping Put
 	* @apiDescription Ping le serveur pour vérifier qu'il fonctionne
-	* @apiVersion 0.3.0
 	* @apiGroup Ping
 	*/
 	router.HandleFunc("/ping", Ping).Methods("PUT")
 	/**
 	* @api {delete} /ping Delete
 	* @apiDescription Ping le serveur pour vérifier qu'il fonctionne
-	* @apiVersion 0.3.0
 	* @apiGroup Ping
 	*/
 	router.HandleFunc("/ping", Ping).Methods("DELETE")
 	/**
 	* @api {options} /ping Options
 	* @apiDescription Renvoie la liste des méthodes autorisées
-	* @apiVersion 0.3.0
 	* @apiGroup Ping
 	*/
 	router.HandleFunc("/ping", OptionsPing).Methods("OPTIONS")
@@ -69,7 +64,6 @@ func main() {
 	/**
 	* @api {get} /ressource?id={id} Structure
 	* @apiDescription Récupère la structure complète d'une ressource
-	* @apiVersion 0.3.0
 	* @apiGroup Ressource
 	*
 	* @apiParam {Number} id L'id de la ressource
@@ -168,19 +162,24 @@ func main() {
 	/**
 	* @api {post} /ressource Créer
 	* @apiDescription Crée une ressource
-	* @apiVersion 0.3.0
 	* @apiGroup Ressource
 	*
 	* @apiParam {String} nom Le nom de la ressource
 	* @apiParam {String} createur Le nom du créateur de la ressource
 	*
 	* @apiSuccess (Created 201) {Object} Ressource Les informations de la ressource nouvellement créée
+	* @apiSuccessExample {json} Exemple de retour :
+	* {
+	* 	"id": 6,
+	* 	"nom": "ressource",
+	* 	"createur": "frambur",
+	* 	"date_creation": "2018-05-28 22:52:26"
+	* }
 	*/
 	router.HandleFunc("/ressource", controller.CreateRessource).Methods("POST")
 	/**
 	* @api {put} /ressource Modifier
 	* @apiDescription Modifie une ressource
-	* @apiVersion 0.3.0
 	* @apiGroup Ressource
 	*
 	* @apiParam {String} id L'id de la ressource à modifier
@@ -191,7 +190,6 @@ func main() {
 	/**
 	* @api {delete} /ressource Supprimer
 	* @apiDescription Supprime une ressource
-	* @apiVersion 0.3.0
 	* @apiGroup Ressource
 	*
 	* @apiParam {Number} id L'id de la ressource à supprimer
@@ -200,7 +198,6 @@ func main() {
 	/**
 	* @api {options} /ressource Options
 	* @apiDescription Renvoie la liste des méthodes autorisées
-	* @apiVersion 0.3.0
 	* @apiGroup Ressource
 	*/
 	router.HandleFunc("/ressource", controller.OptionsRessource).Methods("OPTIONS")
@@ -214,7 +211,6 @@ func main() {
 	/**
 	* @api {get} /ressources?max={max} Lister
 	* @apiDescription Récupère les informations minimales des ressources
-	* @apiVersion 0.3.0
 	* @apiGroup Ressources
 	*
 	* @apiParam {Number} max Le nombre maximum de ressources à récupérer
@@ -239,7 +235,6 @@ func main() {
 	/**
 	* @api {options} /ressources Options
 	* @apiDescription Renvoie la liste des méthodes autorisées
-	* @apiVersion 0.3.0
 	* @apiGroup Ressources
 	*/
 	router.HandleFunc("/ressources", controller.OptionsRessources).Methods("OPTIONS")
@@ -253,7 +248,6 @@ func main() {
 	/**
 	* @api {get} /champs?max={max} Lister
 	* @apiDescription Récupère les informations minimales des champs
-	* @apiVersion 0.3.0
 	* @apiGroup Champs
 	*
 	* @apiParam {Number} max Le nombre maximum de champs à récupérer
@@ -286,7 +280,6 @@ func main() {
 	/**
 	* @api {options} /champs Options
 	* @apiDescription Renvoie la liste des méthodes autorisées
-	* @apiVersion 0.3.0
 	* @apiGroup Champs
 	*/
 	router.HandleFunc("/champs", controller.OptionsChamps).Methods("OPTIONS")
@@ -300,29 +293,52 @@ func main() {
 	/**
 	* @api {get} /champ?id={id} Structure
 	* @apiDescription Récupère la structure complète d'un champ
-	* @apiVersion 0.3.0
 	* @apiGroup Champ
 	*
 	* @apiParam {Number} id L'id du champ
 	* @apiSuccess {Object} Champ Les informations du champ
+	* @apiSuccessExample {json} Exemple de retour :
+	* {
+	* 	"id": 9,
+	* 	"clef": "machin",
+	* 	"ressource_id": null,
+	* 	"regle": {
+	* 		"id": 11,
+	* 		"nom": "Compris entre",
+	* 		"parametres": [
+	* 			{
+	* 				"id": 4,
+	* 				"type": "float"
+	* 			},
+	* 			{
+	* 				"id": 4,
+	* 				"type": "float"
+	* 			}
+	* 		]
+	* 	}
+	* }
 	*/
 	router.HandleFunc("/champ", controller.GetChamp).Methods("GET")
 	/**
 	* @api {post} /champ Créer
 	* @apiDescription Crée un champ
-	* @apiVersion 0.3.0
 	* @apiGroup Champ
 	*
 	* @apiParam {String} clef La clef du champ
 	* @apiParam {Number} [ressource_id] L'id de la ressource à laquelle le champ se rattache
 	*
 	* @apiSuccess (Created 201) {Object} Champ Les informations du champ nouvellement créé
+	* @apiSuccessExample {json} Exemple de retour :
+	* {
+	* 	"id": 10,
+	* 	"clef": "champ",
+	* 	"ressource_id": null
+	* }	
 	*/
 	router.HandleFunc("/champ", controller.CreateChamp).Methods("POST")
 	/**
 	* @api {put} /champ Modifier
 	* @apiDescription Modifie un champ
-	* @apiVersion 0.3.0
 	* @apiGroup Champ
 	*
 	* @apiParam {String} id L'id du champ à modifier
@@ -334,7 +350,6 @@ func main() {
 	/**
 	* @api {delete} /champ Supprimer
 	* @apiDescription Supprime un champ
-	* @apiVersion 0.3.0
 	* @apiGroup Champ
 	*
 	* @apiParam {Number} id L'id du champ à supprimer
@@ -343,7 +358,6 @@ func main() {
 	/**
 	* @api {options} /champ Options
 	* @apiDescription Renvoie la liste des méthodes autorisées
-	* @apiVersion 0.3.0
 	* @apiGroup Champ
 	*/
 	router.HandleFunc("/champ", controller.OptionsChamp).Methods("OPTIONS")
@@ -357,7 +371,6 @@ func main() {
 	/**
 	* @api {get} /regles?max={max} Lister
 	* @apiDescription Récupère les informations des règles
-	* @apiVersion 0.3.0
 	* @apiGroup Regles
 	*
 	* @apiParam {Number} max Le nombre maximum de regles à récupérer
@@ -394,7 +407,6 @@ func main() {
 	/**
 	* @api {options} /regles Options
 	* @apiDescription Renvoie la liste des méthodes autorisées
-	* @apiVersion 0.3.0
 	* @apiGroup Regles
 	*/
 	router.HandleFunc("/regles", controller.OptionsRegles).Methods("OPTIONS")
@@ -407,7 +419,6 @@ func main() {
 	/**
 	* @api {get} /regle?id={id} Structure
 	* @apiDescription Récupère les informations des règles
-	* @apiVersion 0.3.0
 	* @apiGroup Regle
 	*
 	* @apiParam {Number} id L'id de la règle à récupérer
@@ -427,12 +438,84 @@ func main() {
 	*/
 	router.HandleFunc("/regle", controller.GetRegle).Methods("GET")
 	/**
+	* @api {post} /regle Assigner
+	* @apiDescription Assigne une règle à un champ
+	* @apiGroup Regle
+	*
+	* @apiParam {String} regle_id L'id de la règle à assigner
+	* @apiParam {String} champ_id L'id du champ auquel sera assignée la règle
+	*/
+	router.HandleFunc("/regle", controller.AttachRegle).Methods("POST")
+	/**
+	* @api {delete} /regle Désassigner
+	* @apiDescription Désssigne sa règle à un champ
+	* @apiGroup Regle
+	*
+	* @apiParam {String} champ_id L'id du champ duquel désassigner sa règle
+	*/
+	router.HandleFunc("/regle", controller.DetachRegle).Methods("DELETE")
+	/**
 	* @api {options} /regle Options
 	* @apiDescription Renvoie la liste des méthodes autorisées
-	* @apiVersion 0.3.0
 	* @apiGroup Regle
 	*/
 	router.HandleFunc("/regle", controller.OptionsRegle).Methods("OPTIONS")
+}
+
+	/**
+				ENDPOINT /parametres
+	*/
+{
+	/**
+	* @api {post} /parametres (Re)définir
+	* @apiDescription (Re)définit les paramètres de la règle d'un champ donné
+	* @apiGroup Parametres
+	*
+	* @apiParam {String} champ_id L'id du champ duquel les paramètres seront (re)définis
+	* @apiParam {String[]} parametres Les paramètres <br /><br />
+	* Les paramètres sont à mettre, en json, dans le corps de la requête.<br /><br />
+	* Ils doivent être sous forme de tableau de chaînes de caractères.
+	* @apiParamExample {json} Exemple d'envoi de paramètres :
+	* [
+	* 	"1.3",
+	* 	"true",
+	* 	"42",
+	* 	"Hello, World"
+	* ]
+	*/
+	router.HandleFunc("/parametres", controller.SetParametres).Methods("POST")
+	/**
+	* @api {put} /parametres (Re)définir
+	* @apiDescription (Re)définit les paramètres de la règle d'un champ donné
+	* @apiGroup Parametres
+	*
+	* @apiParam {String} champ_id L'id du champ duquel les paramètres seront (re)définis
+	* @apiParam {String[]} parametres Les paramètres <br /><br />
+	* Les paramètres sont à mettre, en json, dans le corps de la requête.<br /><br />
+	* Ils doivent être sous forme de tableau de chaînes de caractères.
+	* @apiParamExample {json} Exemple d'envoi de paramètres :
+	* [
+	* 	"1.3",
+	* 	"true",
+	* 	"42",
+	* 	"Hello, World"
+	* ]
+	*/
+	router.HandleFunc("/parametres", controller.SetParametres).Methods("PUT")
+	/**
+	* @api {delete} /parametres Réinitialiser
+	* @apiDescription Réinitialise les paramètres d'une règle d'un champ et remet leur valeur à <code>null</code>
+	* @apiGroup Parametres
+	*
+	* @apiParam {String} champ_id L'id du champ duquel les paramètres seront réinitialisés
+	*/
+	router.HandleFunc("/parametres", controller.ResetParametres).Methods("DELETE")
+	/**
+	* @api {options} /parametres Options
+	* @apiDescription Renvoie la liste des méthodes autorisées
+	* @apiGroup Parametres
+	*/
+	router.HandleFunc("/parametres", controller.OptionsParametres).Methods("OPTIONS")
 }
 
 
