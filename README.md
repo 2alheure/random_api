@@ -5,7 +5,7 @@ Il s'agit, principalement, d'une API fournissant des jeux de données générés
 
 ## Documentation
 
-Retrouvez la doc de l'API [ici](http://2dtension.fr/alea-data-est).  
+Retrouvez la documentation de l'API [ici](http://2dtension.fr/alea-data-est).  
 Elle a été générée en utilisant [apidoc](http://apidocjs.com).
 
 
@@ -21,4 +21,12 @@ Elle a été générée en utilisant [apidoc](http://apidocjs.com).
   
 ## Evolutions ?
 
-- [ ] ressource - champ en many to many
+La liste des évolutions possibles est trop importante.  
+Pour en avoir un aperçu, vous pouvez lire le cahier des charges.  
+  
+Néanmoins, pour le plus important, il y a un système d'utilisateur.  
+Autrement dit, une authentification pour modifier la ressource propriétaire et un ratio de génération pour protéger d'un DDOS.  
+  
+En seconde position vient, indéniablement, une meilleure implémentation. Un meilleur algorithme, un code plus propre, plus encapsulé.  
+  
+Enfin, En troisième position, avant tout le reste : l'interface web. Parce que c'est quand même plus plaisant d'utiliser un service web par son interface graphique qu'en lignes de commande.

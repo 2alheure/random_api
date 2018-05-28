@@ -18,7 +18,7 @@ func TestSql() {
 
 func InitBdd() {
 	var err error
-	Bdd, err = sql.Open("mysql", config.GetDSN())
+	Bdd, err = sql.Open("mysql", config.DSN())
 	help.CheckErr(err)
 }
 
