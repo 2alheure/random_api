@@ -1,5 +1,5 @@
 main.exe
 src/main.exe
+src/config/config.go
 
 doc/
-src/config/*
