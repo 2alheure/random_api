@@ -3,7 +3,10 @@ package controller
 import (
 	"net/http"
 	"strconv"
+    "gopkg.in/guregu/null.v3"
 	_ "fmt"
+
+
 
 	help "random_api/src/helper"
 	model "random_api/src/model"
@@ -20,7 +23,7 @@ func GetChamp(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateChamp(w http.ResponseWriter, r *http.Request) {
-	champ := model.Champ{Clef: r.FormValue("clef")}
+	champ := model.Champ{Clef: null.NewString(r.FormValue("clef"), true)}
 
 	champ.Create()
 	help.Return(w, 201, champ)
@@ -32,7 +35,7 @@ func ModifyChamp(w http.ResponseWriter, r *http.Request) {
 	if id == "" {
 		help.Return(w, 400, nil)
 	} else {
-		id, err := strconv.Atoi(r.FormValue("id"))
+		id, err := strconv.Atoi(id)
 		help.CheckErr(err)
 	
 		champ := model.GetChamp(id);

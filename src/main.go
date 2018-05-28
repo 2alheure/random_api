@@ -426,12 +426,82 @@ func main() {
 	*/
 	router.HandleFunc("/regle", controller.GetRegle).Methods("GET")
 	/**
+	* @api {post} /regle Assigner
+	* @apiDescription Assigne une règle à un champ
+	* @apiVersion 0.3.0
+	* @apiGroup Regle
+	*
+	* @apiParam {String} regle_id L'id de la règle à assigner
+	* @apiParam {String} champ_id L'id du champ auquel sera assignée la règle
+	*/
+	router.HandleFunc("/regle", controller.AttachRegle).Methods("POST")
+	/**
+	* @api {delete} /regle Désassigner
+	* @apiDescription Désssigne sa règle à un champ
+	* @apiVersion 0.3.0
+	* @apiGroup Regle
+	*
+	* @apiParam {String} champ_id L'id du champ duquel désassigner sa règle
+	*/
+	router.HandleFunc("/regle", controller.DetachRegle).Methods("DELETE")
+	/**
 	* @api {options} /regle Options
 	* @apiDescription Renvoie la liste des méthodes autorisées
 	* @apiVersion 0.3.0
 	* @apiGroup Regle
 	*/
 	router.HandleFunc("/regle", controller.OptionsRegle).Methods("OPTIONS")
+}
+
+	/**
+				ENDPOINT /parametres
+	*/
+{
+	/**
+	* @api {post} /parametres Définir
+	* @apiDescription Définit les paramètres de la règle d'un champ donné
+	* @apiVersion 0.3.0
+	* @apiGroup Parametres
+	*
+	* @apiParam {String} champ_id L'id du champ duquel les paramètres seront définis
+	* @apiParam {String[]} parametres Les paramètres <br /><br />
+	* Les paramètres sont à mettre, en json, dans le corps de la requête.<br /><br />
+	* Ils doivent être sous forme de tableau de chaînes de caractères.
+	* @apiParamExample {json} Exemple d'envoi de paramètres :
+	* [
+	* 	"1.3",
+	* 	"true",
+	* 	"42",
+	* 	"Hello, World"
+	* ]
+	*/
+	router.HandleFunc("/parametres", controller.SetParametres).Methods("POST")
+	/**
+	* @api {PUT} /parametres Redéfinir
+	* @apiDescription Redéfinit les paramètres de la règle d'un champ donné
+	* @apiVersion 0.3.0
+	* @apiGroup Parametres
+	*
+	* @apiParam {String} champ_id L'id du champ duquel les paramètres seront redéfinis
+	* @apiParam {String[]} parametres Les paramètres <br /><br />
+	* Les paramètres sont à mettre, en json, dans le corps de la requête.<br /><br />
+	* Ils doivent être sous forme de tableau de chaînes de caractères.
+	* @apiParamExample {json} Exemple d'envoi de paramètres :
+	* [
+	* 	"1.3",
+	* 	"true",
+	* 	"42",
+	* 	"Hello, World"
+	* ]
+	*/
+	router.HandleFunc("/parametres", controller.ResetParametres).Methods("PUT")
+	/**
+	* @api {options} /parametres Options
+	* @apiDescription Renvoie la liste des méthodes autorisées
+	* @apiVersion 0.3.0
+	* @apiGroup Parametres
+	*/
+	router.HandleFunc("/parametres", controller.OptionsParametres).Methods("OPTIONS")
 }
 
 

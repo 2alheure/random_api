@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  Dim 20 mai 2018 à 22:36
+-- Généré le :  lun. 28 mai 2018 à 01:37
 -- Version du serveur :  5.7.21
 -- Version de PHP :  5.6.35
 
@@ -33,7 +33,7 @@ USE `alea_data_est`;
 
 CREATE TABLE `champ` (
   `id` int(10) UNSIGNED NOT NULL,
-  `ressource_id` int(10) UNSIGNED,
+  `ressource_id` int(10) UNSIGNED DEFAULT NULL,
   `clef` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -46,7 +46,10 @@ INSERT INTO `champ` (`id`, `ressource_id`, `clef`) VALUES
 (2, 1, 'prenom'),
 (3, 1, 'age'),
 (4, 1, 'sexe'),
-(5, 1, 'ville');
+(5, 1, 'ville'),
+(6, NULL, 'truc'),
+(7, NULL, 'truc'),
+(9, NULL, 'machin');
 
 -- --------------------------------------------------------
 
@@ -58,7 +61,7 @@ CREATE TABLE `champ_parametre` (
   `id` int(10) UNSIGNED NOT NULL,
   `champ_id` int(10) UNSIGNED NOT NULL,
   `regle_parametre_id` int(10) UNSIGNED NOT NULL,
-  `valeur` varchar(255) COLLATE utf8_bin NOT NULL
+  `valeur` varchar(255) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -71,7 +74,9 @@ INSERT INTO `champ_parametre` (`id`, `champ_id`, `regle_parametre_id`, `valeur`)
 (10, 3, 10, '100'),
 (11, 4, 1, '[Homme|Femme]'),
 (12, 5, 8, 'ville'),
-(13, 3, 9, '0');
+(13, 3, 9, '0'),
+(18, 9, 9, NULL),
+(19, 9, 10, NULL);
 
 -- --------------------------------------------------------
 
@@ -131,7 +136,7 @@ INSERT INTO `regle` (`id`, `nom`) VALUES
 CREATE TABLE `regle_parametre` (
   `id` int(10) UNSIGNED NOT NULL,
   `regle_id` int(10) UNSIGNED NOT NULL,
-  `parametre_id` int(10) UNSIGNED NOT NULL
+  `parametre_id` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -148,7 +153,9 @@ INSERT INTO `regle_parametre` (`id`, `regle_id`, `parametre_id`) VALUES
 (7, 9, 2),
 (8, 10, 2),
 (9, 11, 4),
-(10, 11, 4);
+(10, 11, 4),
+(11, 8, NULL),
+(12, 7, NULL);
 
 -- --------------------------------------------------------
 
@@ -226,13 +233,13 @@ ALTER TABLE `ressource`
 -- AUTO_INCREMENT pour la table `champ`
 --
 ALTER TABLE `champ`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `champ_parametre`
 --
 ALTER TABLE `champ_parametre`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT pour la table `parametre`
@@ -250,13 +257,13 @@ ALTER TABLE `regle`
 -- AUTO_INCREMENT pour la table `regle_parametre`
 --
 ALTER TABLE `regle_parametre`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `ressource`
 --
 ALTER TABLE `ressource`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Contraintes pour les tables déchargées
