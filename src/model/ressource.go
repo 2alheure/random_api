@@ -9,11 +9,11 @@ import (
 )
 
 type Ressource struct {
-	Id           int     			`json:"id,omitempty"`
+	Id           int     		`json:"id,omitempty"`
 	Nom          null.String  	`json:"nom,omitempty"`
 	Createur     null.String  	`json:"createur,omitempty"`
 	DateCreation null.String  	`json:"date_creation,omitempty"`
-	Champs       []*Champ 			`json:"champs,omitempty"`
+	Champs       []*Champ 		`json:"champs,omitempty"`
 }
 
 func (ress *Ressource) Create() {
@@ -26,7 +26,11 @@ func (ress *Ressource) Create() {
 	id, err := reponse.LastInsertId()
 	help.CheckErr(err)
 
-	ress.Id = int(id)
+	ressource, err := GetRessource(int(id))
+	help.CheckErr(err)
+
+	ress.DateCreation = ressource.DateCreation
+	ress.Id = ressource.Id
 }
 
 func (ress *Ressource) Modify(form url.Values) {

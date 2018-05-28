@@ -2,12 +2,12 @@ package controller
 
 import (
 	"net/http"
-	// "strconv"
+	"strconv"
 	_ "fmt"
 	json "encoding/json"
 
 	help "random_api/src/helper"
-	// model "random_api/src/model"
+	model "random_api/src/model"
 )
 
 func SetParametres(w http.ResponseWriter, r *http.Request) {
@@ -18,12 +18,14 @@ func SetParametres(w http.ResponseWriter, r *http.Request) {
 	err := json.Unmarshal([]byte(parametres), &params)
 	
 	if champ_id == "" || err != nil {
-		Return(w, 400, nil)
+		help.Return(w, 400, nil)
 	} else {
-		if model.SetParametres(champ_id, parametres) {
-			ReturnOk(w)
+		champ_id, err := strconv.Atoi(champ_id)
+		help.CheckErr(err)
+		if model.SetParametres(champ_id, params) {
+			help.ReturnOK(w)
 		} else {
-			Return(w, 404, nil)
+			help.Return(w, 400, nil)
 		}
 	}
 }
@@ -32,12 +34,14 @@ func ResetParametres(w http.ResponseWriter, r *http.Request) {
 	champ_id := r.FormValue("champ_id")
 
 	if champ_id == "" {
-		Return(w, 400, nil)
+		help.Return(w, 400, nil)
 	} else {
+		champ_id, err := strconv.Atoi(champ_id)
+		help.CheckErr(err)
 		if model.ResetParametres(champ_id) {
-			ReturnOk(w)
+			help.ReturnOK(w)
 		} else {
-			Return(w, 404, nil)
+			help.Return(w, 404, nil)
 		}
 	}
 }
