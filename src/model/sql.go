@@ -7,6 +7,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 
 	help "random_api/src/helper"
+	config "random_api/src/config"
 )
 
 var Bdd *sql.DB
@@ -17,7 +18,7 @@ func TestSql() {
 
 func InitBdd() {
 	var err error
-	Bdd, err = sql.Open("mysql", "root:@/alea_data_est?charset=utf8")
+	Bdd, err = sql.Open("mysql", config.GetDSN())
 	help.CheckErr(err)
 }
 

@@ -19,6 +19,7 @@ func BetweenMinAndMax(min int, max int) int {
 }
 
 func LowerThan(n int) int {
+	rand.Seed(time.Now().UnixNano());
 	var ret int;
 	ret = rand.Intn(n+1);
 
@@ -26,6 +27,7 @@ func LowerThan(n int) int {
 }
 
 func StrictlyLowerThan(n int) int {
+	rand.Seed(time.Now().UnixNano());
 	var ret int;
 	ret = rand.Intn(n);
 
@@ -33,8 +35,12 @@ func StrictlyLowerThan(n int) int {
 }
 
 /**
-func greaterThan(n int) int {
+func GreaterThan(n int) int {
+	rand.Seed(time.Now().UnixNano());
+	var ret int;
+	ret = rand.Int();
 
+	return ret;
 }
 
 func strictlyGreaterThan() int {

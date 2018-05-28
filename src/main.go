@@ -9,6 +9,7 @@ import (
 	controller "random_api/src/controller"
 	help "random_api/src/helper"
 	model "random_api/src/model"
+	config "random_api/src/config"
 )
 
 func main() {
@@ -435,7 +436,7 @@ func main() {
 }
 
 
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(config.Port, router))
 }
 
 func Ping(w http.ResponseWriter, r *http.Request) {
