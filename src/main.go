@@ -20,6 +20,22 @@ func main() {
 	router := mux.NewRouter()
 
 	/**
+	* @api {get} / Home
+	* @apiDescription Renvoie le lien vers la <a href="http://2dtension.fr/alea-data-est">documentation de l'API</a>
+	* @apiGroup Home
+	* @apiSuccessExample {json} Retourne :
+	* {"documentation": "http://2dtension.fr/alea-data-est"}
+	*/
+	router.HandleFunc("/", Home).Methods("GET")
+	/**
+	* @api {options} / Options
+	* @apiDescription Renvoie la liste des méthodes autorisées
+	* @apiGroup Home
+	*/
+	router.HandleFunc("/", OptionsHome).Methods("OPTIONS")
+
+
+	/**
 				ENDPOINT /ping
 	*/
 {
@@ -564,6 +580,19 @@ func OptionsPing(w http.ResponseWriter, r *http.Request) {
 		"POST",
 		"PUT",
 		"DELETE",
+		"OPTIONS",
+	}
+
+	help.ReturnOptions(w, options)
+}
+
+func Home(w http.ResponseWriter, r *http.Request) {
+	help.ReturnJson(w, `{"documentation": "http://2dtension.fr/alea-data-est"}`)
+}
+
+func OptionsHome(w http.ResponseWriter, r *http.Request) {
+	options := []string{
+		"GET",
 		"OPTIONS",
 	}
 

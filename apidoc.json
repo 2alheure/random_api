@@ -3,12 +3,13 @@
   "version": "0.8.0",
   "description": "Ne gérez plus votre aléatoire au hasard.",
   "title": "Alea Data Est | API Documentation",
-  "url" : "http://localhost:8000",
+  "url" : "http://randomapi.outofpluto.com:80",
   "template": {
     "withCompare": false,
     "forceLanguage": "fr"
   },
   "order": [
+    "Home",
     "Ping",
     "Generate",
     "Ressource",

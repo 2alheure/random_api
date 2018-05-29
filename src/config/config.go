@@ -1,9 +1,9 @@
 package config
 
 func DSN() string {
-    var User = "root" // exemple : "root"
-    var Password = "" // laisser à vide si pas de mot de passe
-    var DatabaseName = "alea_data_est"
+    var User = "randomapi" // exemple : "root"
+    var Password = "tjJR443an5ftHu8U" // laisser à vide si pas de mot de passe
+    var DatabaseName = "randomapi"
     var Charset = "utf8" // exemple : "utf8"
 
     var ret = User + ":" + Password + "@/" + DatabaseName + "?charset=" + Charset
@@ -11,4 +11,4 @@ func DSN() string {
     return ret
 }
 
-var Port = ":8000" // exemple : ":8000"
+var Port = ":7777" // exemple : ":8000"
