@@ -96,5 +96,5 @@ func DetachRule(champ_id int) bool {
 }
 
 func (regle *Regle) GetParametres() []Parametre {
-	return regle.Parametre
+	return regle.Parametres
 }

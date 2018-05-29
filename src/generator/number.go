@@ -1,18 +1,16 @@
-package generator;
+package generator
 
 import (
 	"fmt"
-	rand "math/rand"
-	constante "math/const"
+	"math"
+	"math/rand"
 	"errors"
 	"strconv"
 	"time"
-
-	model "../src/model"
-);
+)
 
 func TestNum() {
-	fmt.Println("test num_gen");
+	fmt.Println("test num_gen")
 }
 
 func BetweenMinAndMax(args []string) (ChampKV, error) {
@@ -33,12 +31,13 @@ func BetweenMinAndMax(args []string) (ChampKV, error) {
 		}
 
 		if min > max {
-			return BetweenMinAndMax(maxStr, minStr)
+			str := []string{maxStr, minStr}
+			return BetweenMinAndMax(str)
 		}
 
-		rand.Seed(time.Now().UnixNano());
-		var ret int;
-		ret = rand.Intn(max - min) + min;
+		rand.Seed(time.Now().UnixNano())
+		var ret int
+		ret = rand.Intn(max - min) + min
 
 		return ChampKV{Int: ret}, nil
 	} else {
@@ -57,7 +56,7 @@ func Equal(args []string) (ChampKV, error) {
 			return toReturn, err
 		}
 
-		return ChampKV{Int: ret}, nil
+		return ChampKV{Int: n}, nil
 	} else {
 		return toReturn, errors.New("Bad argument number.")
 	}
@@ -111,7 +110,7 @@ func EvenNumber(args []string) (ChampKV, error) {
 	if len(args) == 0 {
 		rand.Seed(time.Now().UnixNano())
 		var ret int
-		ret = (rand.Intn(int(constante.MaxInt32))) * 2
+		ret = (rand.Intn(int(math.MaxInt32))) * 2
 
 		return ChampKV{Int: ret}, nil
 	} else {
@@ -125,7 +124,7 @@ func OddNumber(args []string) (ChampKV, error) {
 	if len(args) == 0 {
 		rand.Seed(time.Now().UnixNano())
 		var ret int
-		ret = rand.Intn(int(constante.MaxInt32))
+		ret = rand.Intn(int(math.MaxInt32))
 		ret += (ret % 2) + 1
 
 		return ChampKV{Int: ret}, nil

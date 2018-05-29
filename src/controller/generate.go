@@ -11,23 +11,28 @@ import (
 func Generate(w http.ResponseWriter, r *http.Request) {
 	nombre := r.FormValue("nombre")
 	ressource_id := r.FormValue("ressource_id")
+	var nbr int
 
 	if ressource_id != "" {
 		if nombre != "" {
-			nombre, err := strconv.Atoi(nombre)
+			var err error
+			nbr, err = strconv.Atoi(nombre)
+			if err != nil {
+				help.Return(w, 400, nil)
+			}
 		} else {
-			nombre = 1
+			nbr = 1
 		}
 
 		ressource_id, err2 := strconv.Atoi(ressource_id)
 
-		if err != nil || err2 != nil {
+		if err2 != nil {
 			help.Return(w, 400, nil)
 		} else {
 			max := 25			// Première mesure anti-DDOS, un max
 
-			if nombre <= max {
-				ret, err_code := model.Generate(ressource_id, nombre)
+			if nbr <= max {
+				ret, err_code := model.Generate(ressource_id, nbr)
 	
 				if err_code != 200 {
 					help.Return(w, err_code, nil)

@@ -2,28 +2,14 @@ package model
 
 import (
 	_ "fmt"
-	"encoding/json"
 	"errors"
-
-	generator "../generator"
+	generator "random_api/src/generator"
 )
 
-type RessourceKV struct {
-	Champs		[]ChampKV		`json:",omitempty"`
-}
-
-type ChampKV struct {					// On met la clef du champ dedans ?
-	Clef	string
-	Int		int
-	Float	float64
-	String	string
-	Bool	bool
-}
-
-type generatorFunction func([]string)(ChampKV, error)
+type generatorFunction func([]string)(generator.ChampKV, error)
 
 type reducer struct {
-	Clef		string					// string ou ChampKV, voir comment ça évolue
+	Clef		string					// string ou generator.ChampKV, voir comment ça évolue
 	Function	generatorFunction
 	Params		[]string
 }
@@ -42,24 +28,24 @@ var RuleSet = map[int]generatorFunction{		// Sert à récupérer toutes les fonc
 	11: generator.BetweenMinAndMax,
 }
 
-func Generate(ressource_id, nombre int) ([]RessourceKV, int) {
-	ret := make([]RessourceKV, nombre)
+func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
+	ret := make([]generator.RessourceKV, nombre)
 
 	reduc, err_code, err := GetReducer(ressource_id)
 	if err != nil {
 		return ret, err_code
 	}
 
-	var ress = RessourceKV{Champs: make([]ChampKV, len(reduc))}
+	var ress = generator.RessourceKV{Champs: make([]generator.ChampKV, len(reduc))}
 	var errorReport error
 	for i := 0; i<nombre; i++ {
-		var field ChampKV
+		var field generator.ChampKV
 
 		for i, red := range reduc {
 
 			field, errorReport = red.Function(red.Params)
 			if errorReport != nil {
-				retun ret, 500
+				return ret, 500
 			}
 
 			field.Clef = red.Clef
@@ -85,13 +71,14 @@ func GetReducer(ressource_id int) ([]reducer, int, error) {
 
 
 	for _, champ := range ressource.Champs {
+		regle_id:= champ.Regle.Id
 
-		if regle_id:= champ.Regle.Id; !champ.Clef.Valid || champ.Regle == nil  || regle_id == 0  {
+		if !champ.Clef.Valid || champ.Regle == nil  || regle_id == 0  {
 			return ret, 409, errors.New("Problème avec la règle.")
 		}
 
 		params := champ.Regle.Parametres
-		var givableParams = []string
+		var givableParams []string
 		
 		if len(params) == 0 {			// !!! Attention il y a des règles sans paramètre !!!
 			return ret, 409, errors.New("Aucun paramètre pour la regle.")
@@ -102,7 +89,7 @@ func GetReducer(ressource_id int) ([]reducer, int, error) {
 				if param.Type == "" || param.Value == "" {
 					return ret, 409, errors.New("Paramètre invalide.")
 				} else {
-					givableParams = append(givableParams, param)
+					givableParams = append(givableParams, param.Value)
 				}
 			}
 		}

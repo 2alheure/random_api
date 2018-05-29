@@ -1,9 +1,9 @@
 package config
 
-func GetDSN() string {
+func DSN() string {
     var User = "root" // exemple : "root"
     var Password = "" // laisser à vide si pas de mot de passe
-    var DatabaseName = ""
+    var DatabaseName = "alea_data_est"
     var Charset = "utf8" // exemple : "utf8"
 
     var ret = User + ":" + Password + "@/" + DatabaseName + "?charset=" + Charset
