@@ -43,18 +43,14 @@ func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
 
 		for i, red := range reduc {
 
-			if red.Function != nil {
-				field, errorReport = red.Function(red.Params)
-				if errorReport != nil {
-					return ret, 500
-				}
-	
-				field.Clef = red.Clef
-	
-				ress.Champs[i] = field
-			} else {
-				return ret, 409
+			field, errorReport = red.Function(red.Params)
+			if errorReport != nil {
+				return ret, 500
 			}
+
+			field.Clef = red.Clef
+
+			ress.Champs[i] = field
 		}
 		
 		ret[i] = ress
@@ -76,6 +72,9 @@ func GetReducer(ressource_id int) ([]reducer, int, error) {
 
 	for _, champ := range ressource.Champs {
 		regle_id:= champ.Regle.Id
+		if val, ok := RuleSet[regle_id]; !ok {
+			return ret, 409, errors.New("Fonction traitant la règle non implémentée.")
+		}
 
 		if !champ.Clef.Valid || champ.Regle == nil  || regle_id == 0  {
 			return ret, 409, errors.New("Problème avec la règle.")
@@ -97,6 +96,7 @@ func GetReducer(ressource_id int) ([]reducer, int, error) {
 				}
 			}
 		}
+
 
 		ret = append(ret, reducer{
 			champ.Clef.String,
