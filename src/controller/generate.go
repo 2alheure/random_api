@@ -29,7 +29,7 @@ func Generate(w http.ResponseWriter, r *http.Request) {
 			if nombre <= max {
 				ret, err_code := model.Generate(ressource_id, nombre)
 	
-				if err_code != 0 {
+				if err_code != 200 {
 					help.Return(w, err_code, nil)
 				} else {
 					help.ReturnJson(w, ret)
@@ -41,4 +41,13 @@ func Generate(w http.ResponseWriter, r *http.Request) {
 	} else {
 		help.Return(w, 400, nil)
 	}
+}
+
+func OptionsGenerate(w http.ResponseWriter, r *http.Request) {
+	options := []string{
+		"GET",
+		"OPTIONS",
+	}
+
+	help.ReturnOptions(w, options)
 }

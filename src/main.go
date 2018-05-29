@@ -518,6 +518,38 @@ func main() {
 	router.HandleFunc("/parametres", controller.OptionsParametres).Methods("OPTIONS")
 }
 
+	/**
+				ENDPOINT /generate
+	*/
+{
+	/**
+	* @api {get} /generate?ressource_id={ressource_id}&nombre={nombre} Générer
+	* @apiDescription Génère aléatoirement une ou plusieurs ressources
+	* @apiGroup Generate
+	*
+	* @apiParam {Number} ressource_id L'id de la ressource à générer
+	* @apiParam {Number} [nombre] Le nombre d'instances à renvoyer <br /><br />
+	* Doit être un nombre entier et positif.<br /><br />
+	* Si non renseigné, renvoie une seule instance.
+	* @apiSuccess {[]Ressource} Ressource Un tableau de {nombre} ressource
+	* @apiSuccessExample {json} Exemple de retour :
+	* [
+	* 	"1.3",
+	* 	"true",
+	* 	"42",
+	* 	"Hello, World"
+	* ]
+	*/
+	router.HandleFunc("/generate", controller.Generate).Methods("GET")
+	/**
+	* @api {options} /generate Options
+	* @apiDescription Renvoie la liste des méthodes autorisées
+	* @apiGroup Generate
+	*/
+	router.HandleFunc("/generate", controller.OptionsGenerate).Methods("OPTIONS")
+}
+
+
 
 	log.Fatal(http.ListenAndServe(config.Port, router))
 }

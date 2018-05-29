@@ -2,74 +2,117 @@ package model
 
 import (
 	_ "fmt"
+	"encoding/json"
+	"errors"
+
+	generator "../generator"
 )
 
 type RessourceKV struct {
 	Champs		[]ChampKV		`json:",omitempty"`
 }
 
-type ChampKV struct {
+type ChampKV struct {					// On met la clef du champ dedans ?
+	Clef	string
 	Int		int
 	Float	float64
 	String	string
 	Bool	bool
 }
 
+type generatorFunction func([]string)(ChampKV, error)
 
-var RuleSet = map[int]					// Doit servir à savoir combien de paramètres fournir aux règles (need une fonction pour récup toutes les règles de la base ?)
+type reducer struct {
+	Clef		string					// string ou ChampKV, voir comment ça évolue
+	Function	generatorFunction
+	Params		[]string
+}
 
-/* Useful :
-	https://gobyexample.com/variadic-functions
+var RuleSet = map[int]generatorFunction{		// Sert à récupérer toutes les fonctions des règles par leur id
+	// 1: generator.FromRegex,
+	2: generator.StrictlyLowerThan,
+	// 3: generator.StrictlyGreaterThan,
+	4: generator.LowerThan,
+	// 5: generator.GreaterThan,
+	6: generator.Equal,
+	7: generator.EvenNumber,
+	8: generator.OddNumber,
+	// 9: generator.MultipleOf,
+	// 10: generator.Dictionnary,
+	11: generator.BetweenMinAndMax,
+}
 
-*/
+func Generate(ressource_id, nombre int) ([]RessourceKV, int) {
+	ret := make([]RessourceKV, nombre)
 
+	reduc, err_code, err := GetReducer(ressource_id)
+	if err != nil {
+		return ret, err_code
+	}
 
-func Generate(ressource_id, nombre int) (map[string]ChampKV, int) {
+	var ress = RessourceKV{Champs: make([]ChampKV, len(reduc))}
+	var errorReport error
+	for i := 0; i<nombre; i++ {
+		var field ChampKV
+
+		for i, red := range reduc {
+
+			field, errorReport = red.Function(red.Params)
+			if errorReport != nil {
+				retun ret, 500
+			}
+
+			field.Clef = red.Clef
+
+			ress.Champs[i] = field
+		}
+
+		ret[nombre] = ress
+	}
+
+	return ret, 200
+}
+
+func GetReducer(ressource_id int) ([]reducer, int, error) {
+	var ret []reducer
 	ressource, err := GetRessource(ressource_id)
 	if err != nil {
-		return nil, 404
+		return ret, 404, errors.New("Ressource irrécupérable.")
 	}
 
 	ressource.Hydrate()
 
-	ret := make(map[string]ChampKV)
+
 
 	for _, champ := range ressource.Champs {
 
-		if !champ.Clef.Valid || champ.Regle == nil  || champ.Regle.Id == 0  {
-			return ret, 409
+		if regle_id:= champ.Regle.Id; !champ.Clef.Valid || champ.Regle == nil  || regle_id == 0  {
+			return ret, 409, errors.New("Problème avec la règle.")
 		}
 
 		params := champ.Regle.Parametres
-
-		if len(params) == 0 {
-			return ret, 409
+		var givableParams = []string
+		
+		if len(params) == 0 {			// !!! Attention il y a des règles sans paramètre !!!
+			return ret, 409, errors.New("Aucun paramètre pour la regle.")
 		} else {
 
-			for _, param := range param {
+			for _, param := range params {
 
 				if param.Type == "" || param.Value == "" {
-					return ret, 409
+					return ret, 409, errors.New("Paramètre invalide.")
 				} else {
-
+					givableParams = append(givableParams, param)
 				}
 			}
 		}
+
+		ret = append(ret, reducer{
+			champ.Clef.String,
+			RuleSet[regle_id],
+			givableParams,
+		})
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	return ret, 0
+	return ret, 0, nil
 }
