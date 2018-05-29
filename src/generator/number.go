@@ -104,6 +104,50 @@ func StrictlyLowerThan(args []string) (ChampKV, error) {
 	}
 }
 
+func GreaterThan(args []string) (ChampKV, error) {
+	var toReturn ChampKV
+
+	if len(args) == 1 {
+		nStr := args[0]
+
+		n, err := strconv.Atoi(nStr)
+		if err != nil {
+			return toReturn, err
+		}
+
+		rand.Seed(time.Now().UnixNano())
+		var ret int
+		ret = rand.Intn(int(math.MaxInt32) - n)
+		ret += n
+
+		return ChampKV{Int: ret}, nil
+	} else {
+		return toReturn, errors.New("Bad argument number.")
+	}
+}
+
+func StrictlyGreaterThan(args []string) (ChampKV, error) {
+	var toReturn ChampKV
+
+	if len(args) == 1 {
+		nStr := args[0]
+
+		n, err := strconv.Atoi(nStr)
+		if err != nil {
+			return toReturn, err
+		}
+
+		rand.Seed(time.Now().UnixNano())
+		var ret int
+		ret = rand.Intn(int(math.MaxInt32) - n)
+		ret += n + 1
+
+		return ChampKV{Int: ret}, nil
+	} else {
+		return toReturn, errors.New("Bad argument number.")
+	}
+}
+
 func EvenNumber(args []string) (ChampKV, error) {
 	var toReturn ChampKV
 
