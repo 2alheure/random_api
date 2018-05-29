@@ -177,3 +177,23 @@ func OddNumber(args []string) (ChampKV, error) {
 	}
 }
 
+func MultipleOf(args []string) (ChampKV, error) {
+	var toReturn ChampKV
+
+	if len(args) == 1 {
+		var ret float64
+		n, err := strconv.ParseFloat(args[0], 64)
+		if err != nil {
+			return toReturn, errors.New("Impossible to parse parameter into float.")
+		}
+
+		rand.Seed(time.Now().UnixNano())
+
+		ret = rand.Float64() * math.Abs(n)
+		ret *= float64(rand.Int(int(math.MaxFloat64/ret)))
+
+		return ChampKV{Float: ret}, nil
+	} else {
+		return toReturn, errors.New("Bad argument number.")
+	}
+}

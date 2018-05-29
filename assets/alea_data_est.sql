@@ -173,7 +173,7 @@ INSERT INTO `regle_parametre` (`id`, `regle_id`, `parametre_id`) VALUES
 (4, 4, 3),
 (5, 5, 3),
 (6, 6, 3),
-(7, 9, 2),
+(7, 9, 4),
 (8, 10, 2),
 (9, 11, 4),
 (10, 11, 4),

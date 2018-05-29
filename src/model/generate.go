@@ -15,11 +15,11 @@ type reducer struct {
 }
 
 var RuleSet = map[int]generatorFunction{		// Sert à récupérer toutes les fonctions des règles par leur id
-	// 1: generator.FromRegex,
+	1: generator.FromRegex,
 	2: generator.StrictlyLowerThan,
-	// 3: generator.StrictlyGreaterThan,
+	3: generator.StrictlyGreaterThan,
 	4: generator.LowerThan,
-	// 5: generator.GreaterThan,
+	5: generator.GreaterThan,
 	6: generator.Equal,
 	7: generator.EvenNumber,
 	8: generator.OddNumber,

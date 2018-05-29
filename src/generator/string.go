@@ -2,7 +2,10 @@ package generator;
 
 import (
 	"fmt"
+	"strconv"
+	
 	"github.com/lucasjones/reggen"
+
 	help "../helper"
 );
 
@@ -10,19 +13,20 @@ func TestStr() {
 	fmt.Println("test str_gen");
 }
 
-func FromRegex(regex string, n int) []string {
-	if (n <= 0) {
-		return nil;
+func FromRegex(args []string) (ChampKV, error) {
+	var toReturn ChampKV
+	var errReturn error
+
+	if len(args) == 1 {
+		regex := args[0]
+		
+		var err error
+		toReturn.String, err = reggen.NewGenerator(regex)
+		if err != nil {
+			errReturn.New("Unable to generate from regex.")
+		} 
+	} else { 
+		errReturn.New("Bad Argument Number.")
 	}
-
-	var ret []string; 
-
-	g, err := reggen.NewGenerator(regex);
-	help.CheckErr(err)
-
-	for i := 0; i < n; i++ {
-		ret = append(ret, g.Generate(100));
-	}
-
-	return ret;
+	return toReturn, errReturn
 }

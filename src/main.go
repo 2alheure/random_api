@@ -550,7 +550,7 @@ func main() {
 }
 
 	/**
-				ENDPOINT /ping
+				ENDPOINT /
 	*/
 {
 	/**
