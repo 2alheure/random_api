@@ -2,14 +2,29 @@ package main;
 
 import (
     "fmt"
-    generator "random_api/src/generator"
+    "encoding/json"
+    model "random_api/src/model"
 );
 
 func main() {
-    //fmt.Printf("hello, world\n");
-    //test := generator.FromRegex("test", 10);
-    //fmt.Println(generator.LowerThan(5));
-    //fmt.Println(generator.StrictlyLowerThan(5));
+	model.InitBdd()
 
-    //fmt.Println(test);
+    defer model.Bdd.Close()
+    
+
+    reducer, err_code, erroring := model.GetReducer(7)
+
+    fmt.Println(reducer)
+    fmt.Println(err_code)
+    fmt.Println(erroring)
+
+
+
+    ress, code := model.Generate(1, 10)
+
+    fmt.Println(code)
+
+    if (code == 200) {
+        fmt.Println(json.Marshal(ress))
+    }
 }

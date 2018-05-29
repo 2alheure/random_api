@@ -43,17 +43,21 @@ func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
 
 		for i, red := range reduc {
 
-			field, errorReport = red.Function(red.Params)
-			if errorReport != nil {
-				return ret, 500
+			if red.Function != nil {
+				field, errorReport = red.Function(red.Params)
+				if errorReport != nil {
+					return ret, 500
+				}
+	
+				field.Clef = red.Clef
+	
+				ress.Champs[i] = field
+			} else {
+				return ret, 409
 			}
-
-			field.Clef = red.Clef
-
-			ress.Champs[i] = field
 		}
-
-		ret[nombre] = ress
+		
+		ret[i] = ress
 	}
 
 	return ret, 200
@@ -101,5 +105,5 @@ func GetReducer(ressource_id int) ([]reducer, int, error) {
 		})
 	}
 
-	return ret, 0, nil
+	return ret, 200, nil
 }

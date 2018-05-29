@@ -46,8 +46,11 @@ func ModifyChamp(w http.ResponseWriter, r *http.Request) {
 			err := r.ParseForm()
 			help.CheckErr(err)
 			
-			champ.Modify(r.Form)
-			help.ReturnOK(w)
+			if champ.Modify(r.Form) {
+				help.ReturnOK(w)
+			} else {
+				help.Return(w, 500, nil)
+			}
 		}
 	}
 }

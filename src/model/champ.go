@@ -29,25 +29,47 @@ func (champ *Champ) Create() {
 	champ.Id = int(id)
 }
 
-func (champ *Champ) Modify(form url.Values) {
+func (champ *Champ) Modify(form url.Values) bool {
 	for key, val := range form {
 		switch key {
 			case "ressource_id":
+				var ress_id string
+				if val[0] == "" {
+					ress_id = "NULL"
+				} else {
+					ress_id = val[0]
+				}
+
 				stmt, err := Bdd.Prepare("UPDATE champ SET ressource_id = ? WHERE id = ?")
 				help.CheckErr(err)
 				
-				_, err = stmt.Exec(val[0], champ.Id)
+				reponse, err := stmt.Exec(ress_id, champ.Id)
 				help.CheckErr(err)
+
+				affect, err := reponse.RowsAffected()
+				help.CheckErr(err)
+			
+				if affect != 1 {
+					return false
+				}
 				break;
 			case "clef":
 				stmt, err := Bdd.Prepare("UPDATE champ SET clef = ? WHERE id = ?")
 				help.CheckErr(err)
 				
-				_, err = stmt.Exec(val[0], champ.Id)
+				reponse, err := stmt.Exec(val[0], champ.Id)
 				help.CheckErr(err)
+				
+				affect, err := reponse.RowsAffected()
+				help.CheckErr(err)
+			
+				if affect != 1 {
+					return false
+				}
 				break;
 		}
 	}
+	return true;
 }
 
 func (champ *Champ) Delete() bool {
