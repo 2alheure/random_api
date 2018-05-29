@@ -189,8 +189,8 @@ func MultipleOf(args []string) (ChampKV, error) {
 
 		rand.Seed(time.Now().UnixNano())
 
-		ret = rand.Float64() * math.Abs(n)
-		ret *= float64(rand.Int(int(math.MaxFloat64/ret)))
+		ret = rand.Float64() * n
+		ret *= float64(rand.Intn(int(math.MaxFloat64/math.Abs(ret))))
 
 		return ChampKV{Float: ret}, nil
 	} else {
