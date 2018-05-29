@@ -1,1 +1,4 @@
+*.exe
 src/*.exe
+src/config/*.go
+assets/doc/

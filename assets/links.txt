@@ -9,3 +9,6 @@ https://miek.nl/go/		- Go Tuto
 https://nordicapis.com/7-frameworks-to-build-a-rest-api-in-go/		- 7 frameworks Go API
 https://dev.to/codehakase/building-a-restful-api-with-go		- Mini tuto API Go
 https://github.com/lucasjones/reggen			- Reggen, générateur de strings à partir de regex
+https://gowebexamples.com/routes-using-gorilla-mux/			- Go tuto by example
+https://medium.com/aubergine-solutions/how-i-handled-null-possible-values-from-database-rows-in-golang-521fb0ee267		- Dealing with null sql values in Go
+https://github.com/guregu/null				- 		Dealing with null + json

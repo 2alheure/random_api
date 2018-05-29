@@ -1,0 +1,24 @@
+{
+  "name": "Alea Data Est",
+  "version": "0.8.0",
+  "description": "Ne gérez plus votre aléatoire au hasard.",
+  "title": "Alea Data Est | API Documentation",
+  "url" : "http://randomapi.outofpluto.com:80",
+  "template": {
+    "withCompare": false,
+    "forceLanguage": "fr"
+  },
+  "order": [
+    "Home",
+    "Ping",
+    "Generate",
+    "Ressource",
+    "Ressources",
+    "Champ",
+    "Champs",
+    "Regle",
+    "Regles",
+    "Parametre",
+    "Parametres"
+  ]
+}
