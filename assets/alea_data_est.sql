@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 28 mai 2018 à 01:37
--- Version du serveur :  5.7.21
--- Version de PHP :  5.6.35
+-- Généré le :  mar. 29 mai 2018 à 12:06
+-- Version du serveur :  5.7.19
+-- Version de PHP :  7.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -49,7 +49,18 @@ INSERT INTO `champ` (`id`, `ressource_id`, `clef`) VALUES
 (5, 1, 'ville'),
 (6, NULL, 'truc'),
 (7, NULL, 'truc'),
-(9, NULL, 'machin');
+(9, NULL, 'machin'),
+(10, 6, 'rule1'),
+(11, 6, 'rule2'),
+(12, 6, 'rule3'),
+(13, 6, 'rule4'),
+(14, 6, 'rule5'),
+(15, 6, 'rule6'),
+(16, 6, 'rule7'),
+(17, 6, 'rule8'),
+(18, 6, 'rule9'),
+(19, 6, 'rule10'),
+(20, 6, 'rule11');
 
 -- --------------------------------------------------------
 
@@ -76,7 +87,19 @@ INSERT INTO `champ_parametre` (`id`, `champ_id`, `regle_parametre_id`, `valeur`)
 (12, 5, 8, 'ville'),
 (13, 3, 9, '0'),
 (18, 9, 9, NULL),
-(19, 9, 10, NULL);
+(19, 9, 10, NULL),
+(21, 10, 1, 'abc|def'),
+(22, 11, 2, '12'),
+(23, 12, 3, '25'),
+(24, 13, 4, '25'),
+(25, 14, 5, '45'),
+(26, 15, 6, '10'),
+(27, 16, 12, '10'),
+(28, 17, 11, '10'),
+(29, 18, 7, '10'),
+(30, 19, 8, 'Prenom'),
+(31, 20, 9, '10'),
+(32, 20, 10, '24');
 
 -- --------------------------------------------------------
 
@@ -177,7 +200,9 @@ CREATE TABLE `ressource` (
 INSERT INTO `ressource` (`id`, `nom`, `createur`, `date_creation`) VALUES
 (1, 'user', '2alheure', '2018-05-20 13:27:38'),
 (2, 'machin', 'frambur', '2018-05-20 15:34:43'),
-(3, 'truc', '2dtension', '2018-05-20 15:34:43');
+(3, 'truc', '2dtension', '2018-05-20 15:34:43'),
+(6, 'test', 'test', '2018-05-29 11:33:57'),
+(7, 'test_generate', '2alheure', '2018-05-29 12:05:50');
 
 --
 -- Index pour les tables déchargées
@@ -233,13 +258,13 @@ ALTER TABLE `ressource`
 -- AUTO_INCREMENT pour la table `champ`
 --
 ALTER TABLE `champ`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT pour la table `champ_parametre`
 --
 ALTER TABLE `champ_parametre`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT pour la table `parametre`
@@ -263,7 +288,7 @@ ALTER TABLE `regle_parametre`
 -- AUTO_INCREMENT pour la table `ressource`
 --
 ALTER TABLE `ressource`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Contraintes pour les tables déchargées
