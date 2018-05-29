@@ -534,10 +534,8 @@ func main() {
 	* @apiSuccess {[]Ressource} Ressource Un tableau de {nombre} ressource
 	* @apiSuccessExample {json} Exemple de retour :
 	* [
-	* 	"1.3",
-	* 	"true",
-	* 	"42",
-	* 	"Hello, World"
+	* 	{"clef": 1.3, "key": true, "clef2": 42, "key2": "Hello, World"},
+	* 	{"clef": 3.1415, "key": false, "clef2": 1337, "key2": "SDfgmohgkf"}
 	* ]
 	*/
 	router.HandleFunc("/generate", controller.Generate).Methods("GET")

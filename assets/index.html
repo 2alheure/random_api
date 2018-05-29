@@ -9,17 +9,34 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+      html {
+        background: url('logo.png') no-repeat center fixed;
+        background-size: cover;
+        -webkit-background-size: contain;
+      }
+
+      body {
+        background-color: initial;
+      }
+
+      .jumbotron {
+        margin-top: 150px;
+        background-color: rgba(233, 236, 239, 0.7);
+      }
+    </style>
   </head>
   <body>
       <div class="container">
+        
+        <div class="jumbotron">
           <nav class="nav justify-content-center">
-            <a class="nav-link active" href="doc/index.html"><i class="fa fa-file-o" aria-hidden="true"></i> Documentation</a>
+            <a class="nav-link" href="Cahier des charges/cahier des charges.pdf">Cahier des Charges</a>
+            <a class="nav-link" href="presentation.pdf">Slides de présentation</a>
+            <a class="nav-link" href="doc/index.html"><i class="fa fa-file-o" aria-hidden="true"></i> Documentation</a>
             <a class="nav-link" href="https://github.com/2alheure/random_api"><i class="fas fa-github"></i> Repository GitHub</a>
-            <a class="nav-link disabled" href="Cahier des charges/cahier des charges.pdf">Cahier des Charges</a>
-            <a class="nav-link disabled" href="notes_derniere_seance.pdf">Notes de dernière séance</a>
+            <a class="nav-link" href="notes_derniere_seance.pdf">Notes de dernière séance</a>
           </nav>
-          
-          <div class="jumbotron">
               <h1 class="display-3">Alea Data Est</h1>
               <p class="lead">Compte-rendu de fin de projet</p>
               <p class="lead">Projet mené par Florian RAMBUR et Jordan JUVENTIN</p>
