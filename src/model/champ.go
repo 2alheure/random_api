@@ -32,8 +32,8 @@ func (champ *Champ) Create() {
 func (champ *Champ) Modify(form url.Values) {
 	for key, val := range form {
 		switch key {
-			case "id_ressource":
-				stmt, err := Bdd.Prepare("UPDATE champ SET id_ressource = ? WHERE id = ?")
+			case "ressource_id":
+				stmt, err := Bdd.Prepare("UPDATE champ SET ressource_id = ? WHERE id = ?")
 				help.CheckErr(err)
 				
 				_, err = stmt.Exec(val[0], champ.Id)
