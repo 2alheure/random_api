@@ -72,7 +72,7 @@ func GetReducer(ressource_id int) ([]reducer, int, error) {
 
 	for _, champ := range ressource.Champs {
 		regle_id:= champ.Regle.Id
-		if val, ok := RuleSet[regle_id]; !ok {
+		if _, ok := RuleSet[regle_id]; !ok {
 			return ret, 409, errors.New("Fonction traitant la règle non implémentée.")
 		}
 

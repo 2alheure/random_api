@@ -555,7 +555,7 @@ func main() {
 }
 
 func Ping(w http.ResponseWriter, r *http.Request) {
-	help.ReturnJson(w, `Pong`)
+	help.ReturnJson(w, `"Pong"`)
 }
 
 func OptionsPing(w http.ResponseWriter, r *http.Request) {
