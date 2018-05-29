@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"gopkg.in/guregu/null.v3"
 
-	help "random_api/src/helper"
+	help "../helper"
 )
 
 type Ressource struct {

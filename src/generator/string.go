@@ -3,7 +3,7 @@ package generator;
 import (
 	"fmt"
 	"github.com/lucasjones/reggen"
-	help "random_api/src/helper"
+	help "../helper"
 );
 
 func TestStr() {

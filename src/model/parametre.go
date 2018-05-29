@@ -1,7 +1,7 @@
 package model
 
 import (
-	help "random_api/src/helper"
+	help "../helper"
 )
 
 type Parametre struct {

@@ -3,7 +3,7 @@ package main;
 import (
     "fmt"
     "encoding/json"
-    model "random_api/src/model"
+    model "./model"
 );
 
 func main() {

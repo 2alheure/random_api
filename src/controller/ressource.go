@@ -5,8 +5,8 @@ import (
 	"strconv"
     "gopkg.in/guregu/null.v3"
 
-	help "random_api/src/helper"
-	model "random_api/src/model"
+	help "../helper"
+	model "../model"
 )
 
 func GetRessource(w http.ResponseWriter, r *http.Request) {

@@ -6,8 +6,8 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	help "random_api/src/helper"
-	config "random_api/src/config"
+	help "../helper"
+	config "../config"
 )
 
 var Bdd *sql.DB

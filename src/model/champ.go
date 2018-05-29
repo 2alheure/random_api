@@ -6,7 +6,7 @@ import (
 	"gopkg.in/guregu/null.v3"
 	
 	_ "fmt"
-	help "random_api/src/helper"
+	help "../helper"
 )
 
 type Champ struct {

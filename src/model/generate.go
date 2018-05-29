@@ -3,7 +3,7 @@ package model
 import (
 	_ "fmt"
 	"errors"
-	generator "random_api/src/generator"
+	generator "../generator"
 )
 
 type generatorFunction func([]string)(generator.ChampKV, error)

@@ -6,10 +6,10 @@ import (
 
 	"github.com/gorilla/mux"
 
-	controller "random_api/src/controller"
-	help "random_api/src/helper"
-	model "random_api/src/model"
-	config "random_api/src/config"
+	controller "./controller"
+	help "./helper"
+	model "./model"
+	config "./config"
 )
 
 func main() {

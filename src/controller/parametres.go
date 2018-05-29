@@ -6,8 +6,8 @@ import (
 	_ "fmt"
 	json "encoding/json"
 
-	help "random_api/src/helper"
-	model "random_api/src/model"
+	help "../helper"
+	model "../model"
 )
 
 func SetParametres(w http.ResponseWriter, r *http.Request) {
