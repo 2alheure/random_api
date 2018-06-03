@@ -3,6 +3,8 @@ package model
 import (
 	_ "fmt"
 	"errors"
+	"math/rand"
+	"time"
 	generator "../generator"
 )
 
@@ -21,8 +23,8 @@ var RuleSet = map[int]generatorFunction{		// Sert à récupérer toutes les fonc
 	4: generator.LowerThan,
 	5: generator.GreaterThan,
 	6: generator.Equal,
-	7: generator.EvenNumber,
-	8: generator.OddNumber,
+	// 7: generator.EvenNumber,
+	// 8: generator.OddNumber,
 	// 9: generator.MultipleOf,
 	// 10: generator.Dictionnary,
 	11: generator.BetweenMinAndMax,
@@ -30,6 +32,7 @@ var RuleSet = map[int]generatorFunction{		// Sert à récupérer toutes les fonc
 
 func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
 	ret := make([]generator.RessourceKV, nombre)
+			rand.Seed(time.Now().UnixNano())
 
 	reduc, err_code, err := GetReducer(ressource_id)
 	if err != nil {
@@ -42,6 +45,7 @@ func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
 		var field generator.ChampKV
 
 		for i, red := range reduc {
+
 
 			field, errorReport = red.Function(red.Params)
 			if errorReport != nil {
