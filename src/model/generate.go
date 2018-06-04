@@ -11,7 +11,7 @@ import (
 type generatorFunction func([]string)(generator.ChampKV, error)
 
 type reducer struct {
-	Clef		string					// string ou generator.ChampKV, voir comment ça évolue
+	Clef		string
 	Function	generatorFunction
 	Params		[]string
 }
@@ -40,7 +40,7 @@ func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
 	}
 
 	var errorReport error
-	
+
 	for i := 0; i<nombre; i++ {
 
 		var ress = generator.RessourceKV{Champs: make([]generator.ChampKV, len(reduc))}
@@ -58,8 +58,6 @@ func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
 			ress.Champs[j] = field
 		}
 		
-		fmt.Println(ress)
-
 		ret[i] = ress
 	}
 
