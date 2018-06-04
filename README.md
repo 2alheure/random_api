@@ -8,15 +8,11 @@ Il s'agit, principalement, d'une API fournissant des jeux de données générés
 Retrouvez la documentation de l'API [ici](http://2dtension.fr/alea-data-est).  
 Elle a été générée en utilisant [apidoc](http://apidocjs.com).
 
-
 ## TODO
 
-L'aléatoire n'est pas total. A modifier.  
-  
 Plus de règles. Au moins finir les règles déjà dans la bdd. (Pour dico, autre API ? (API-platform))  
   
 Une route /test ?
-
 
 ## Evolutions ?
 
