@@ -8,17 +8,13 @@ Il s'agit, principalement, d'une API fournissant des jeux de données générés
 Retrouvez la documentation de l'API [ici](http://2dtension.fr/alea-data-est).  
 Elle a été générée en utilisant [apidoc](http://apidocjs.com).
 
-
 ## TODO
 
-- [x] type struct des models
-- [x] fonctions d'hydratation des type struct
-- [ ] fonctions de génération des model.type
-- [ ] fonction de génération d'une ressource (en parcours en profondeur / largeur)
-- [x] fonction helper d'output JSON
-- [x] fonctions qui handle une requête HTTP
-- [x] routes HTTP
+Plus de règles. Au moins finir les règles déjà dans la bdd. (Pour dico, autre API ? (API-platform))  
+Problème avec les règles sans paramètres (odd, even)  
   
+Une route /test ?
+
 ## Evolutions ?
 
 La liste des évolutions possibles est trop importante.  

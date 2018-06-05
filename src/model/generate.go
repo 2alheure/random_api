@@ -1,15 +1,17 @@
 package model
 
 import (
-	_ "fmt"
+	"fmt"
 	"errors"
+	"math/rand"
+	"time"
 	generator "../generator"
 )
 
 type generatorFunction func([]string)(generator.ChampKV, error)
 
 type reducer struct {
-	Clef		string					// string ou generator.ChampKV, voir comment ça évolue
+	Clef		string
 	Function	generatorFunction
 	Params		[]string
 }
@@ -21,14 +23,15 @@ var RuleSet = map[int]generatorFunction{		// Sert à récupérer toutes les fonc
 	4: generator.LowerThan,
 	5: generator.GreaterThan,
 	6: generator.Equal,
-	7: generator.EvenNumber,
-	8: generator.OddNumber,
-	// 9: generator.MultipleOf,
+	// 7: generator.EvenNumber,
+	// 8: generator.OddNumber,
+	9: generator.MultipleOf,
 	// 10: generator.Dictionnary,
 	11: generator.BetweenMinAndMax,
 }
 
 func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
+	rand.Seed(time.Now().UnixNano())
 	ret := make([]generator.RessourceKV, nombre)
 
 	reduc, err_code, err := GetReducer(ressource_id)
@@ -36,12 +39,14 @@ func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
 		return ret, err_code
 	}
 
-	var ress = generator.RessourceKV{Champs: make([]generator.ChampKV, len(reduc))}
 	var errorReport error
+
 	for i := 0; i<nombre; i++ {
+
+		var ress = generator.RessourceKV{Champs: make([]generator.ChampKV, len(reduc))}
 		var field generator.ChampKV
 
-		for i, red := range reduc {
+		for j, red := range reduc {
 
 			field, errorReport = red.Function(red.Params)
 			if errorReport != nil {
@@ -50,7 +55,7 @@ func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
 
 			field.Clef = red.Clef
 
-			ress.Champs[i] = field
+			ress.Champs[j] = field
 		}
 		
 		ret[i] = ress
