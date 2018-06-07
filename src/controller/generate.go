@@ -48,6 +48,55 @@ func Generate(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func TestGenerate(w http.ResponseWriter, r *http.Request) {
+	ressource_id := r.FormValue("ressource_id")
+
+	var test struct {
+		Status			string		`json:"status"`
+		ErrorCode		int			`json:"error_code,omitempty"`
+		ErrorMessages	[]string	`json:"debug_messages,omitempty"`
+	}
+
+	if ressource_id == "" {
+		
+		test.Status = "error"
+		test.ErrorCode = 400
+		test.ErrorMessages = append(test.ErrorMessages, "Le paramètre {id} est requis.")
+		help.ReturnJson(w, test)
+	} else {
+		
+		id, err := strconv.Atoi(ressource_id)
+		if err != nil {
+			
+			test.Status = "error"
+			test.ErrorCode = 400
+			test.ErrorMessages = append(test.ErrorMessages, "Le paramètre {id} doit être un nombre entier.")
+			help.ReturnJson(w, test)
+		} else {
+			
+			_, errCode, messages := model.GetReducer(id)
+			if errCode != 200 {
+				test.Status = "error"
+				test.ErrorCode = errCode
+				test.ErrorMessages = messages
+				help.ReturnJson(w, test)	
+			} else {
+				test.Status = "success"
+				help.ReturnJson(w, test)	
+			}
+		}
+	}
+}
+
+func OptionsTest(w http.ResponseWriter, r *http.Request) {
+	options := []string{
+		"GET",
+		"OPTIONS",
+	}
+
+	help.ReturnOptions(w, options)
+}
+
 func OptionsGenerate(w http.ResponseWriter, r *http.Request) {
 	options := []string{
 		"GET",

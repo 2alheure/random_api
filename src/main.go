@@ -412,6 +412,7 @@ func main() {
 	router.HandleFunc("/regles", controller.OptionsRegles).Methods("OPTIONS")
 }
 
+
 	/**
 				ENDPOINT /regle
 	*/
@@ -461,6 +462,7 @@ func main() {
 	*/
 	router.HandleFunc("/regle", controller.OptionsRegle).Methods("OPTIONS")
 }
+
 
 	/**
 				ENDPOINT /parametres
@@ -518,6 +520,7 @@ func main() {
 	router.HandleFunc("/parametres", controller.OptionsParametres).Methods("OPTIONS")
 }
 
+
 	/**
 				ENDPOINT /generate
 	*/
@@ -546,6 +549,29 @@ func main() {
 	*/
 	router.HandleFunc("/generate", controller.OptionsGenerate).Methods("OPTIONS")
 }
+
+
+	/**
+				ENDPOINT /test
+	*/
+{
+	/**
+	* @api {get} /test?id={id} Test
+	* @apiDescription Test la ressource pour savoir s'il n'y a pas de problème lors d'une éventuelle génération
+	* @apiGroup Test
+	* @apiParam {Number} id L'id de la ressource à tester
+	* @apiSuccessExample {json} Retour si la ressource est correcte :
+	* {"status": "success"}
+	*/
+	router.HandleFunc("/test", controller.TestGenerate).Methods("GET")
+	/**
+	* @api {options} /test Options
+	* @apiDescription Renvoie la liste des méthodes autorisées
+	* @apiGroup Test
+	*/
+	router.HandleFunc("/test", controller.OptionsTest).Methods("OPTIONS")
+}
+
 
 	/**
 				ENDPOINT /

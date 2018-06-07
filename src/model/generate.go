@@ -2,7 +2,6 @@ package model
 
 import (
 	"fmt"
-	"errors"
 	"math/rand"
 	"time"
 	generator "../generator"
@@ -35,7 +34,8 @@ func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
 	ret := make([]generator.RessourceKV, nombre)
 
 	reduc, err_code, err := GetReducer(ressource_id)
-	if err != nil {
+	n := len(err)
+	if n > 0 {
 		return ret, err_code
 	}
 
@@ -64,11 +64,17 @@ func Generate(ressource_id, nombre int) ([]generator.RessourceKV, int) {
 	return ret, 200
 }
 
-func GetReducer(ressource_id int) ([]reducer, int, error) {
-	var ret []reducer
+func GetReducer(ressource_id int) (ret []reducer, errCode int, messages []string) {
+	ret = make([]reducer, 0)
+	errCode = 200
+	messages = make([]string, 0)
+	
 	ressource, err := GetRessource(ressource_id)
 	if err != nil {
-		return ret, 404, errors.New("Ressource irrécupérable.")
+		errCode = 404
+		errare := fmt.Errorf("Ressource d'id %d introuvable.", ressource_id)
+		messages = append(messages, errare.Error())
+		return
 	}
 
 	ressource.Hydrate()
@@ -78,30 +84,41 @@ func GetReducer(ressource_id int) ([]reducer, int, error) {
 	for _, champ := range ressource.Champs {
 		regle_id:= champ.Regle.Id
 		if _, ok := RuleSet[regle_id]; !ok {
-			return ret, 409, errors.New("Fonction traitant la règle non implémentée.")
+			errCode = 409
+			errare := fmt.Errorf("La fonction permettant de traiter la règle `%s` (regle_id: %d) n'est pas encore implémentée.", champ.Regle.Nom, regle_id)
+			messages = append(messages, errare.Error())
+			continue
 		}
 
 		if !champ.Clef.Valid || champ.Regle == nil  || regle_id == 0  {
-			return ret, 409, errors.New("Problème avec la règle.")
+			errCode = 409
+			errare := fmt.Errorf("Impossible d'hydrater correctement le champ `%s` ou sa règle `%s`.", champ.Clef.Value, champ.Regle.Nom)
+			messages = append(messages, errare.Error())
+			continue
 		}
 
 		params := champ.Regle.Parametres
 		var givableParams []string
 		
 		if len(params) == 0 {			// !!! Attention il y a des règles sans paramètre !!!
-			return ret, 409, errors.New("Aucun paramètre pour la regle.")
+			errCode = 409
+			errare := fmt.Errorf("Aucun paramètre pour la règle `%s` qui en attendait.", champ.Regle.Nom)
+			messages = append(messages, errare.Error())
+			continue
 		} else {
 
 			for _, param := range params {
 
 				if param.Type == "" || param.Value == "" {
-					return ret, 409, errors.New("Paramètre invalide.")
+					errCode = 409
+					errare := fmt.Errorf("Paramètre `%s` (type %s) invalide pour le champ `%s`.", param.Value, param.Type, champ.Clef.Value)
+					messages = append(messages, errare.Error())
+					continue
 				} else {
 					givableParams = append(givableParams, param.Value)
 				}
 			}
 		}
-
 
 		ret = append(ret, reducer{
 			champ.Clef.String,
@@ -110,5 +127,5 @@ func GetReducer(ressource_id int) ([]reducer, int, error) {
 		})
 	}
 
-	return ret, 200, nil
+	return
 }
