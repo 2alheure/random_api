@@ -84,7 +84,7 @@ func GetReducer(ressource_id int) (ret []reducer, errCode int, messages []string
 	for _, champ := range ressource.Champs {
 		regle_id:= champ.Regle.Id
 		if _, ok := RuleSet[regle_id]; !ok {
-			errCode = 409
+			errCode = 405
 			errare := fmt.Errorf("La fonction permettant de traiter la règle `%s` (regle_id: %d) n'est pas encore implémentée.", champ.Regle.Nom, regle_id)
 			messages = append(messages, errare.Error())
 			continue
@@ -125,6 +125,22 @@ func GetReducer(ressource_id int) (ret []reducer, errCode int, messages []string
 			RuleSet[regle_id],
 			givableParams,
 		})
+	}
+
+	return
+}
+
+func TestGenerate(ressource_id int) (errCode int, messages []string) {
+	reduc, errCode, messages := GetReducer(ressource_id)
+
+	for _, red := range reduc {
+
+		_, errorReport = red.Function(red.Params)
+
+		if errorReport != nil {
+			errCode = 409
+			messages = append(messages, errorReport.Error())
+		}
 	}
 
 	return

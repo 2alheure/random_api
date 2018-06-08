@@ -74,7 +74,7 @@ func TestGenerate(w http.ResponseWriter, r *http.Request) {
 			help.ReturnJson(w, test)
 		} else {
 			
-			_, errCode, messages := model.GetReducer(id)
+			errCode, messages := model.TestGenerate(id)
 			if errCode != 200 {
 				test.Status = "error"
 				test.ErrorCode = errCode
