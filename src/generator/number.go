@@ -178,12 +178,7 @@ func MultipleOf(args []string) (ChampKV, error) {
 			return toReturn, errors.New("Impossible to parse parameter into float.")
 		}
 
-		fmt.Println(n)
-		fmt.Println(math.MaxFloat64)
-		fmt.Println(math.MaxFloat64/n)
-
-		max := int64(math.Abs(math.MaxFloat64/n))
-		fmt.Println(max)
+		max := int64(math.Abs(float64(math.MaxInt64)/n))
 
 		ret := float64(rand.Int63n(max)) * n
 
