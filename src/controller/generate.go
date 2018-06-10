@@ -49,7 +49,7 @@ func Generate(w http.ResponseWriter, r *http.Request) {
 }
 
 func TestGenerate(w http.ResponseWriter, r *http.Request) {
-	ressource_id := r.FormValue("ressource_id")
+	ressource_id := r.FormValue("id")
 
 	var test struct {
 		Status			string		`json:"status"`

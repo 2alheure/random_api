@@ -135,7 +135,7 @@ func TestGenerate(ressource_id int) (errCode int, messages []string) {
 
 	for _, red := range reduc {
 
-		_, errorReport = red.Function(red.Params)
+		_, errorReport := red.Function(red.Params)
 
 		if errorReport != nil {
 			errCode = 409
