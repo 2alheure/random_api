@@ -82,7 +82,7 @@ func TestGenerate(w http.ResponseWriter, r *http.Request) {
 				help.ReturnJson(w, test)	
 			} else {
 				test.Status = "success"
-				help.ReturnJson(w, test)	
+				help.ReturnJson(w, test)
 			}
 		}
 	}

@@ -562,6 +562,21 @@ func main() {
 	* @apiParam {Number} id L'id de la ressource à tester
 	* @apiSuccessExample {json} Retour si la ressource est correcte :
 	* {"status": "success"}
+	* @apiErrorExample {json} Exemple de retour si la ressource est incorrecte :
+	* {
+	* 	"status": "error",
+	* 	"error_code": 405,
+	* 	"debug_messages": [
+	* 		"La fonction permettant de traiter la règle `Dictionnaire` (regle_id: 10) n'est pas encore implémentée.",
+	* 		"La fonction permettant de traiter la règle `Pair` (regle_id: 7) n'est pas encore implémentée.",
+	* 		"La fonction permettant de traiter la règle `Impair` (regle_id: 8) n'est pas encore implémentée.",
+	* 		"Paramètre `abc` (type int) invalide pour le champ `age`."
+	* 	]
+	* }
+	* @apiError (Erreur de test) 400 Mauvais paramètres de requête (<code>id</code> est absent ou n'est pas un nombre)
+	* @apiError (Erreur de test) 404 La ressource est introuvable
+	* @apiError (Erreur de test) 405 La fonction permettant de traiter une règle de la ressource n'est pas encore implémentée.
+	* @apiError (Erreur de test) 409 Un problème est survenu avec les paramètres d'une règle, ou pendant l'exécution de la fonction de génération d'une règle.
 	*/
 	router.HandleFunc("/test", controller.TestGenerate).Methods("GET")
 	/**
