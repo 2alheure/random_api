@@ -22,8 +22,8 @@ var RuleSet = map[int]generatorFunction{		// Sert à récupérer toutes les fonc
 	4: generator.LowerThan,
 	5: generator.GreaterThan,
 	6: generator.Equal,
-	// 7: generator.EvenNumber,
-	// 8: generator.OddNumber,
+	7: generator.EvenNumber,
+	8: generator.OddNumber,
 	9: generator.MultipleOf,
 	// 10: generator.Dictionnary,
 	11: generator.BetweenMinAndMax,
@@ -85,14 +85,14 @@ func GetReducer(ressource_id int) (ret []reducer, errCode int, messages []string
 		regle_id:= champ.Regle.Id
 		if _, ok := RuleSet[regle_id]; !ok {
 			errCode = 405
-			errare := fmt.Errorf("La fonction permettant de traiter la règle `%s` (regle_id: %d) n'est pas encore implémentée.", champ.Regle.Nom, regle_id)
+			errare := fmt.Errorf("La fonction permettant de traiter la règle `%s` (regle_id: %d) du champ `%s` (champ_id: %d) n'est pas encore implémentée.", champ.Regle.Nom, regle_id, champ.Clef.String, champ.Id)
 			messages = append(messages, errare.Error())
 			continue
 		}
 
 		if !champ.Clef.Valid || champ.Regle == nil  || regle_id == 0  {
 			errCode = 409
-			errare := fmt.Errorf("Impossible d'hydrater correctement le champ `%s` ou sa règle `%s`.", champ.Clef.Value, champ.Regle.Nom)
+			errare := fmt.Errorf("Impossible d'hydrater correctement le champ `%s` ou sa règle `%s`.", champ.Clef.String, champ.Regle.Nom)
 			messages = append(messages, errare.Error())
 			continue
 		}
@@ -100,25 +100,26 @@ func GetReducer(ressource_id int) (ret []reducer, errCode int, messages []string
 		params := champ.Regle.Parametres
 		var givableParams []string
 		
+		/*
 		if len(params) == 0 {			// !!! Attention il y a des règles sans paramètre !!!
 			errCode = 409
 			errare := fmt.Errorf("Aucun paramètre pour la règle `%s` qui en attendait.", champ.Regle.Nom)
 			messages = append(messages, errare.Error())
 			continue
 		} else {
-
+		*/
 			for _, param := range params {
 
 				if param.Type == "" || param.Value == "" {
 					errCode = 409
-					errare := fmt.Errorf("Paramètre `%s` (type %s) invalide pour le champ `%s`.", param.Value, param.Type, champ.Clef.Value)
+					errare := fmt.Errorf("Paramètre `%s` (type %s) invalide pour le champ `%s`.", param.Value, param.Type, champ.Clef.String)
 					messages = append(messages, errare.Error())
 					continue
 				} else {
 					givableParams = append(givableParams, param.Value)
 				}
 			}
-		}
+		//}
 
 		ret = append(ret, reducer{
 			champ.Clef.String,

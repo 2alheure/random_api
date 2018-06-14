@@ -70,20 +70,6 @@ func (ress *Ressource) Delete() bool {
 	return true
 }
 
-// func (ress *Ressource) Generate(n int) []Ressource {
-// // On va créer un array qui récupère les clefs de chaque champ et leur associe une valeur
-// // La valeur de chaque champ vaudra champ.Generate
-// 	var ret = []map[string]Champ
-
-// 	for i := 0 ; i<n ; i++ {
-// 		for _, j := range ress.Champs {
-// 			ret = append(ret, j.Generate())
-// 		}
-// 	}
-
-// 	return ret
-// }
-
 func GetRessources(max int) []Ressource {
 	stmt, err := Bdd.Query("SELECT * FROM ressource ORDER BY date_creation DESC LIMIT ?", max)
 	help.CheckErr(err)

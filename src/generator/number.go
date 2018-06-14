@@ -39,7 +39,7 @@ func BetweenMinAndMax(args []string) (ChampKV, error) {
 
 		return ChampKV{Int: ret, Bint: true}, nil
 	} else {
-		return toReturn, errors.New("Bad argument number.")
+		return toReturn, errors.New(fmt.Sprintf("Bad argument number: Expected 2, Received %d.", len(args)))
 	}
 }
 
@@ -56,7 +56,7 @@ func Equal(args []string) (ChampKV, error) {
 
 		return ChampKV{Int: n, Bint: true}, nil
 	} else {
-		return toReturn, errors.New("Bad argument number.")
+		return toReturn, errors.New(fmt.Sprintf("Bad argument number: Expected 1, Received %d.", len(args)))
 	}
 }
 
@@ -76,7 +76,7 @@ func LowerThan(args []string) (ChampKV, error) {
 
 		return ChampKV{Int: ret, Bint: true}, nil
 	} else {
-		return toReturn, errors.New("Bad argument number.")
+		return toReturn, errors.New(fmt.Sprintf("Bad argument number: Expected 1, Received %d.", len(args)))
 	}
 }
 
@@ -96,7 +96,7 @@ func StrictlyLowerThan(args []string) (ChampKV, error) {
 
 		return ChampKV{Int: ret, Bint: true}, nil
 	} else {
-		return toReturn, errors.New("Bad argument number.")
+		return toReturn, errors.New(fmt.Sprintf("Bad argument number: Expected 1, Received %d.", len(args)))
 	}
 }
 
@@ -117,7 +117,7 @@ func GreaterThan(args []string) (ChampKV, error) {
 
 		return ChampKV{Int: ret, Bint: true}, nil
 	} else {
-		return toReturn, errors.New("Bad argument number.")
+		return toReturn, errors.New(fmt.Sprintf("Bad argument number: Expected 1, Received %d.", len(args)))
 	}
 }
 
@@ -138,35 +138,23 @@ func StrictlyGreaterThan(args []string) (ChampKV, error) {
 
 		return ChampKV{Int: ret, Bint: true}, nil
 	} else {
-		return toReturn, errors.New("Bad argument number.")
+		return toReturn, errors.New(fmt.Sprintf("Bad argument number: Expected 1, Received %d.", len(args)))
 	}
 }
 
 func EvenNumber(args []string) (ChampKV, error) {
-	var toReturn ChampKV
+	var ret int
+	ret = (rand.Intn(int(math.MaxInt32))) * 2
 
-	if len(args) == 0 {
-		var ret int
-		ret = (rand.Intn(int(math.MaxInt32))) * 2
-
-		return ChampKV{Int: ret, Bint: true}, nil
-	} else {
-		return toReturn, errors.New("Bad argument number.")
-	}
+	return ChampKV{Int: ret, Bint: true}, nil
 }
 
 func OddNumber(args []string) (ChampKV, error) {
-	var toReturn ChampKV
+	var ret int
+	ret = rand.Intn(int(math.MaxInt32))
+	ret += (ret % 2) + 1
 
-	if len(args) == 0 {
-		var ret int
-		ret = rand.Intn(int(math.MaxInt32))
-		ret += (ret % 2) + 1
-
-		return ChampKV{Int: ret, Bint: true}, nil
-	} else {
-		return toReturn, errors.New("Bad argument number.")
-	}
+	return ChampKV{Int: ret, Bint: true}, nil
 }
 
 func MultipleOf(args []string) (ChampKV, error) {
@@ -175,7 +163,7 @@ func MultipleOf(args []string) (ChampKV, error) {
 	if len(args) == 1 {
 		n, err := strconv.ParseFloat(args[0], 64)
 		if err != nil {
-			return toReturn, errors.New("Impossible to parse parameter into float.")
+			return toReturn, err
 		}
 
 		max := int64(math.Abs(float64(math.MaxInt64)/n))
@@ -184,6 +172,6 @@ func MultipleOf(args []string) (ChampKV, error) {
 
 		return ChampKV{Float: ret, Bfloat: true}, nil
 	} else {
-		return toReturn, errors.New("Bad argument number.")
+		return toReturn, errors.New(fmt.Sprintf("Bad argument number: Expected 1, Received %d.", len(args)))
 	}
 }

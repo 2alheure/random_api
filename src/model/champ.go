@@ -88,12 +88,6 @@ func (champ *Champ) Delete() bool {
 	return true
 }
 
-// func (champ *Champ) Generate() interface{} {
-// // On va créer un champ en appelant regle.Generate
-// // return struct{Key string, Value @type} {"clef", @value}
-// 	return struct{}
-// }
-
 func GetChamps(max int) []Champ {
 	var champs []Champ
 

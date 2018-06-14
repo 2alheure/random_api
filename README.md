@@ -11,10 +11,7 @@ Elle a été générée en utilisant [apidoc](http://apidocjs.com).
 ## TODO
 
 Plus de règles. Au moins finir les règles déjà dans la bdd. (Pour dico, autre API ? (API-platform))  
-Problème avec les règles sans paramètres (odd, even)  
   
-Une route /test ?
-
 ## Evolutions ?
 
 La liste des évolutions possibles est trop importante.  

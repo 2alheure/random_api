@@ -20,12 +20,12 @@ func FromRegex(args []string) (ChampKV, error) {
 		
 		str, err := reggen.Generate(regex, 10)
 		if err != nil {
-			errReturn = errors.New("Unable to generate from regex.")
+			errReturn = errors.New(fmt.Sprintf("Unable to generate from regex \"%s\".", regex))
 		} else {
 			return ChampKV{String: str, Bstring: true}, nil
 		}
 	} else { 
-		errReturn = errors.New("Bad Argument Number.")
+		errReturn = errors.New(fmt.Sprintf("Bad argument number: Expected 1, Received %d.", len(args)))
 	}
 	return toReturn, errReturn
 }
