@@ -3,15 +3,25 @@
 Ceci est un projet porté par Jordan Juventin (aka 2alheure) et Florian Rambur, étudiants à l'ECV Digital Paris. 
 Il s'agit, principalement, d'une API fournissant des jeux de données générés aléatoirement. 
 
+## Getting Started
+
+Avant d'utiliser, veuillez installer les dépendances suivantes (avec `go get`) :
+- `github.com/gorilla/mux`
+- `gopkg.in/guregu/null.v3`
+- `github.com/go-sql-driver/mysql`
+- `github.com/lucasjones/reggen`
+
 ## Documentation
 
-Retrouvez la documentation de l'API [ici](http://2dtension.fr/alea-data-est).  
-Elle a été générée en utilisant [apidoc](http://apidocjs.com).
+Retrouvez la [documentation de l'API](http://2dtension.fr/alea-data-est), générée en utilisant [apidoc](http://apidocjs.com).
 
 ## TODO
 
 Plus de règles. Au moins finir les règles déjà dans la bdd. (Pour dico, autre API ? (API-platform))  
+Problème avec les règles sans paramètres (odd, even)  
   
+Une route /test ?
+
 ## Evolutions ?
 
 La liste des évolutions possibles est trop importante.  
